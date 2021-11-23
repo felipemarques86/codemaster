@@ -13,7 +13,7 @@
     <version>1.0.0</version>
     <name>backoffice</name>
     <description>backoffice</description>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <properties>
         <java.version>11</java.version>
     </properties>
