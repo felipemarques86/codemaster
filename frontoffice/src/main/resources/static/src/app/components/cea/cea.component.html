@@ -1,0 +1,132 @@
+<div class="row">
+  <div class="col">
+    <div *ngIf="activityInstance && deliverable">
+
+      <div class="jumbotron">
+        <h1 class="display-4">{{activityInstance.activity.name}}</h1>
+        <p class="lead">Olá {{deliverable.author.name}}!</p>
+        <p class="lead"> {{activityInstance.activity.description}}</p>
+        <hr class="my-4">
+        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+        <p class="lead">
+          <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        </p>
+      </div>
+
+      <div class="row">
+        <div class="col">
+
+          <div class="row">
+            <div class="col" #codeeditor>
+              <ngx-codemirror
+                #codemirrorComponent
+                [(ngModel)]="deliverable.code.code"
+                [options]="{
+                  lineNumbers: true,
+                  theme: 'material',
+                  mode: 'javascript'
+                }"
+              ></ngx-codemirror>
+            </div>
+            <div class="col">
+              <h5>Comentários</h5>
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let comment of deliverable.code.commentList"
+                    (mouseover)="highlightLine(comment.id)" (mouseout)="removeHighlightLine(comment.id)">
+                  <span class='badge badge-info'>{{comment.id}}</span>&nbsp;&nbsp;<b>{{comment.author.name}}</b> <span
+                  class="badge badge-light">({{comment.date | date:'short'}})</span>: {{comment.content}}
+                  <ul class="list-group" style="margin-top: 10px;">
+                    <li class="list-group-item" *ngFor="let c1 of comment.replies"
+                        (mouseover)="highlightLine(c1.id)" (mouseout)="removeHighlightLine(c1.id)">
+                      <span class='badge badge-info'>{{c1.id}}</span>&nbsp;&nbsp;<b>{{c1.author.name}}</b> <span
+                      class="badge badge-light">({{c1.date | date:'short'}})</span>: {{c1.content}}
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <br/>
+          <button class="btn btn-primary" [disabled]="!deliverable.code.code" (click)="runTests(false)">Correr os meus
+            testes <span class="badge badge-light">{{deliverable.solution.testsToPass.length}}</span></button>&nbsp;&nbsp;
+          <button class="btn btn-primary" [disabled]="!deliverable.code.code" (click)="runTests(true)">Correr os testes
+            dos meus colegas <span class="badge badge-light">{{activityInstance.deliverable.length - 1}}</span></button>
+          <br/>
+          <br/>
+
+          <div *ngIf="failedTests.length > 0">
+
+            <div *ngFor="let t of passedTests">
+              <div class="alert alert-success" role="alert">
+                <b>Passou no teste {{t.id}}</b>
+              </div>
+
+            </div>
+            <div *ngFor="let t of failedTests">
+              <div class="alert alert-danger" role="alert">
+                Falhou no teste ({{t.test.id}}) - causa: {{t.error}}
+              </div>
+            </div>
+
+          </div>
+
+
+          <div *ngIf="failedTests.length === 0 && passedTests.length > 0" class="alert alert-success" role="alert">
+            <b>Passou em todos os testes!</b>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row" *ngFor="let othersDeliverable of getOthersDeliverable() ">
+        <div class="col">
+          <p>Autor: {{othersDeliverable.author.name}}</p>
+          <ngx-codemirror
+            #codemirrorComponentOthers
+            [(ngModel)]="othersDeliverable.code.code"
+            [options]="{
+                  lineNumbers: true,
+                  theme: 'material',
+                  mode: 'javascript',
+                  readOnly: true
+                }"></ngx-codemirror>
+          <br/>
+          <button class="btn btn-info">Adicionar Comentário</button>&nbsp;&nbsp;
+          <br/>
+          <br/>
+          <div *ngFor="let t of othersDeliverable.result">
+            <div class="alert alert-success" role="alert" *ngIf="t.passed">
+              <b>Passou no teste {{t.unitTest.id}}</b>
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="!t.passed">
+              <b>Falhou no teste {{t.unitTest.id}}</b>
+            </div>
+
+          </div>
+        </div>
+        <div class="col">
+          <h5>Comentários</h5>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let comment of othersDeliverable.code.commentList"
+                (mouseover)="highlightLine(comment.id)" (mouseout)="removeHighlightLine(comment.id)">
+              <span class='badge badge-info'>{{comment.id}}</span>&nbsp;&nbsp;<b>{{comment.author.name}}</b> <span
+              class="badge badge-light">({{comment.date | date:'short'}})</span>: {{comment.content}}
+              <ul class="list-group" style="margin-top: 10px;">
+                <li class="list-group-item" *ngFor="let c1 of comment.replies"
+                    (mouseover)="highlightLine(c1.id)" (mouseout)="removeHighlightLine(c1.id)">
+                  <span class='badge badge-info'>{{c1.id}}</span>&nbsp;&nbsp;<b>{{c1.author.name}}</b> <span
+                  class="badge badge-light">({{c1.date | date:'short'}})</span>: {{c1.content}}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>

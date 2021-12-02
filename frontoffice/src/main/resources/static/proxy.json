@@ -1,0 +1,8 @@
+{
+  "/v1/api/*": {
+    "target": "http://localhost/v1/api/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
