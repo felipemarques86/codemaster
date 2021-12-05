@@ -1,21 +1,18 @@
 package pt.codemaster.services;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
+import com.zaxxer.hikari.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.*;
 import javax.sql.DataSource;
 
 @Configuration
 public class DataBaseConfig {
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
 
     @Bean
     public DataSource dataSource() {
-        String dbUrl = System.getenv("DATABASE_URL");
-        if(dbUrl.contains("jdbcUrl=")){
-            dbUrl = dbUrl.replace("jdbcUrl=", "");
-        }
+        System.getenv("JDBC_DATABASE_URL");
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(dbUrl);
         return new HikariDataSource(config);
