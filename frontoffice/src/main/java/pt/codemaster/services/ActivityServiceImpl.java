@@ -1,10 +1,10 @@
 package pt.codemaster.services;
 
+import pt.codemaster.adt.ActivityInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pt.codemaster.adt.ActivityInstance;
 import pt.codemaster.adt.activity.Activity;
 import pt.codemaster.repositories.ActivityDefinitionRepository;
 import pt.codemaster.repositories.ActivityInstanceRepository;
