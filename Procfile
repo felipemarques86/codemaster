@@ -1,1 +1,1 @@
-web: java -jar backoffice/target/backoffice-1.0.0.jar
+web: java -jar frontoffice/target/frontoffice-1.0.0.jar
