@@ -12,7 +12,7 @@ public class DataBaseConfig {
 
     @Bean
     public DataSource dataSource() {
-        String dbUrl = System.getenv("DATABASE_URL");
+        String dbUrl = System.getenv("DATABASE_URL").split("=")[1];
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(dbUrl);
         return new HikariDataSource(config);
