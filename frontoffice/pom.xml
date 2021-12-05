@@ -47,7 +47,6 @@
             <groupId>pt.codemaster</groupId>
             <artifactId>backoffice</artifactId>
             <version>1.0.0</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>

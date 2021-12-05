@@ -41,6 +41,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>pt.codemaster</groupId>
+            <artifactId>backoffice</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -53,7 +60,7 @@
     </build>
 
     <modules>
-        <module>backoffice</module>
+        <module>frontoffice</module>
     </modules>
 
 </project>

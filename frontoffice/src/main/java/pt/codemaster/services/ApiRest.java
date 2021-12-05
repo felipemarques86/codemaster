@@ -9,7 +9,6 @@ import pt.codemaster.adt.activity.ActivityUnitTest;
 import pt.codemaster.adt.activity.BibliographicReference;
 
 import java.util.Arrays;
-import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
