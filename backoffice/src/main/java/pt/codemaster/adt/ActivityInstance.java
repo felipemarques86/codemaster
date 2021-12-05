@@ -2,14 +2,25 @@ package pt.codemaster.adt;
 
 import pt.codemaster.adt.activity.Activity;
 
-import java.util.*;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+@Entity
 public class ActivityInstance<A extends Activity> {
+    @Id
+    @GeneratedValue
     private Long id;
     private Date startDate;
     private Date endDate;
+    @ManyToOne(targetEntity = Activity.class)
     private A activity;
+    @OneToMany
     private List<Deliverable> deliverable = new ArrayList<>();
+
+    public ActivityInstance() {
+    }
 
     public ActivityInstance(A activity) {
         this.activity = activity;

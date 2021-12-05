@@ -16,42 +16,14 @@
       <div class="row">
         <div class="col">
 
-          <div class="row">
-            <div class="col" #codeeditor>
-              <ngx-codemirror
-                #codemirrorComponent
-                [(ngModel)]="deliverable.code.code"
-                [options]="{
-                  lineNumbers: true,
-                  theme: 'material',
-                  mode: 'javascript'
-                }"
-              ></ngx-codemirror>
-            </div>
-            <div class="col">
-              <h5>Comentários</h5>
-              <ul class="list-group">
-                <li class="list-group-item" *ngFor="let comment of deliverable.code.commentList"
-                    (mouseover)="highlightLine(comment.id)" (mouseout)="removeHighlightLine(comment.id)">
-                  <span class='badge badge-info'>{{comment.id}}</span>&nbsp;&nbsp;<b>{{comment.author.name}}</b> <span
-                  class="badge badge-light">({{comment.date | date:'short'}})</span>: {{comment.content}}
-                  <ul class="list-group" style="margin-top: 10px;">
-                    <li class="list-group-item" *ngFor="let c1 of comment.replies"
-                        (mouseover)="highlightLine(c1.id)" (mouseout)="removeHighlightLine(c1.id)">
-                      <span class='badge badge-info'>{{c1.id}}</span>&nbsp;&nbsp;<b>{{c1.author.name}}</b> <span
-                      class="badge badge-light">({{c1.date | date:'short'}})</span>: {{c1.content}}
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </div>
-
+          <app-codeeditor [code]="deliverable.code" [commentList]="deliverable.code.commentList">
+          </app-codeeditor>
           <br/>
           <button class="btn btn-primary" [disabled]="!deliverable.code.code" (click)="runTests(false)">Correr os meus
             testes <span class="badge badge-light">{{deliverable.solution.testsToPass.length}}</span></button>&nbsp;&nbsp;
           <button class="btn btn-primary" [disabled]="!deliverable.code.code" (click)="runTests(true)">Correr os testes
-            dos meus colegas <span class="badge badge-light">{{activityInstance.deliverable.length - 1}}</span></button>
+            dos meus colegas <span class="badge badge-light">{{activityInstance.deliverable.length - 1}}</span></button>&nbsp;&nbsp;
+          <button class="btn btn-info">Adicionar Comentário</button>
           <br/>
           <br/>
 
@@ -80,17 +52,12 @@
       </div>
 
       <div class="row" *ngFor="let othersDeliverable of getOthersDeliverable() ">
+
+
         <div class="col">
           <p>Autor: {{othersDeliverable.author.name}}</p>
-          <ngx-codemirror
-            #codemirrorComponentOthers
-            [(ngModel)]="othersDeliverable.code.code"
-            [options]="{
-                  lineNumbers: true,
-                  theme: 'material',
-                  mode: 'javascript',
-                  readOnly: true
-                }"></ngx-codemirror>
+          <app-codeeditor [code]="othersDeliverable.code" [commentList]="othersDeliverable.code.commentList">
+          </app-codeeditor>
           <br/>
           <button class="btn btn-info">Adicionar Comentário</button>&nbsp;&nbsp;
           <br/>
@@ -104,23 +71,6 @@
             </div>
 
           </div>
-        </div>
-        <div class="col">
-          <h5>Comentários</h5>
-          <ul class="list-group">
-            <li class="list-group-item" *ngFor="let comment of othersDeliverable.code.commentList"
-                (mouseover)="highlightLine(comment.id)" (mouseout)="removeHighlightLine(comment.id)">
-              <span class='badge badge-info'>{{comment.id}}</span>&nbsp;&nbsp;<b>{{comment.author.name}}</b> <span
-              class="badge badge-light">({{comment.date | date:'short'}})</span>: {{comment.content}}
-              <ul class="list-group" style="margin-top: 10px;">
-                <li class="list-group-item" *ngFor="let c1 of comment.replies"
-                    (mouseover)="highlightLine(c1.id)" (mouseout)="removeHighlightLine(c1.id)">
-                  <span class='badge badge-info'>{{c1.id}}</span>&nbsp;&nbsp;<b>{{c1.author.name}}</b> <span
-                  class="badge badge-light">({{c1.date | date:'short'}})</span>: {{c1.content}}
-                </li>
-              </ul>
-            </li>
-          </ul>
         </div>
 
       </div>

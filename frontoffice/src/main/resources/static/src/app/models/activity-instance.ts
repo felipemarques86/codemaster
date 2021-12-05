@@ -1,5 +1,4 @@
-import {Activity} from "./activity";
-import {ActivityUnitTest, Code, EndUser, Solution} from "./evaluation-activity";
+import {Activity, ActivityUnitTest, Code, EndUser, Solution} from "./evaluation-activity";
 
 
 export interface ActivityInstance<T extends Activity> {

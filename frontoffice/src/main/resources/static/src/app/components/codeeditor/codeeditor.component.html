@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col" #codeeditor>
+    <ngx-codemirror
+      #codemirrorComponent
+      (ngModelChange)="codeChanged()"
+      [(ngModel)]="code.code"
+      [options]="{
+                  lineNumbers: true,
+                  theme: 'material',
+                  mode: 'javascript'
+                }"
+    ></ngx-codemirror>
+  </div>
+  <div class="col">
+    <h5>Comentários</h5>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let comment of commentList"
+          (mouseover)="highlightLine(comment.id)" (mouseout)="removeHighlightLine(comment.id)">
+        <span class='badge badge-info'>{{comment.id}}</span>&nbsp;&nbsp;<b>{{comment.author.name}}</b> <span
+        class="badge badge-light">({{comment.date | date:'short'}})</span>: {{comment.content}}
+        <ul class="list-group" style="margin-top: 10px;">
+          <li class="list-group-item" *ngFor="let c1 of comment.replies"
+              (mouseover)="highlightLine(c1.id)" (mouseout)="removeHighlightLine(c1.id)">
+            <span class='badge badge-info'>{{c1.id}}</span>&nbsp;&nbsp;<b>{{c1.author.name}}</b> <span
+            class="badge badge-light">({{c1.date | date:'short'}})</span>: {{c1.content}}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,1 +1,65 @@
-<p>config-activity works!</p>
+<div class="row">
+  <div class="col">
+
+
+      <div class="jumbotron">
+        <h1 class="display-4">Atividade de Avaliação Colaborativa</h1>
+        <p class="lead">Olá!</p>
+        <p class="lead">Configuração da atividade</p>
+        <hr class="my-4">
+        <p>Siga os passos do wizard para configurar a atividade.</p>
+      </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <form>
+      <div class="form-group">
+        <label>Nome da Atividade</label>
+        <input [formControl]="name" type="text" class="form-control" placeholder="Escreva aqui o nome da atividade">
+        <small class="form-text text-muted">Nome da atividade de avaliação colaborativa.</small>
+      </div>
+      <div class="form-group">
+        <label >Descrição</label>
+        <textarea [formControl]="description" type="text" class="form-control"  >
+
+        </textarea>
+        <small class="form-text text-muted">Descreva o problema a ser resolvido pelos utilizadores. Defina com o máximo de detalhe possível.</small>
+      </div>
+<!--      <div class="form-group form-check">-->
+<!--        <input type="checkbox" class="form-check-input" id="exampleCheck1">-->
+<!--        <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
+<!--      </div>-->
+
+      <button type="button" class="btn btn-info" (click)="addSolution()">+ Adicionar Solução</button>
+      <br style="clear: both" />
+      <br style="clear: both" />
+
+      <div *ngFor="let solution of solutions">
+
+        <div class="row">
+          <div class="col" #codeeditor>
+            <ngx-codemirror
+              #codemirrorComponent
+              (ngModelChange)="codeChanged()"
+              [(ngModel)]="solution.code.code"
+              [ngModelOptions]="{standalone: true}"
+              [options]="{
+                  lineNumbers: true,
+                  theme: 'material',
+                  mode: 'javascript'
+                }"
+            ></ngx-codemirror>
+          </div>
+        </div>
+
+        <br style="clear: both" />
+
+      </div>
+      <br style="clear: both" />
+      <button type="submit" class="btn btn-primary" (click)="saveActivity()">Guardar</button>
+    </form>
+  </div>
+</div>

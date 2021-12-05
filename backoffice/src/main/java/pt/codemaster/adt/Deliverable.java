@@ -2,20 +2,41 @@ package pt.codemaster.adt;
 
 import pt.codemaster.adt.activity.UnitTestResult;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Deliverable {
+    @Id
+    @GeneratedValue
+    private Long id;
+    @ManyToOne
     private EndUser author;
     private String content;
+    @ManyToOne
     private Code code;
+    @OneToMany
     private List<UnitTestResult> result = new ArrayList<>();
+    @ManyToOne
     private Solution solution;
     private boolean submitted;
     private boolean readOnly;
 
     public Deliverable(Solution solution) {
         this.solution = solution;
+    }
+
+    public Deliverable() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public EndUser getAuthor() {

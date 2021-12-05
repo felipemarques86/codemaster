@@ -1,15 +1,20 @@
 package pt.codemaster.adt;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
+@Entity
 public class Comment {
+    @Id
+    @GeneratedValue
     private Long id;
+    @ManyToOne
     private EndUser author;
     private Date date;
     private String content;
+    @OneToMany
     private List<Comment> replies = new ArrayList<>();
     private static long ids = 0;
 

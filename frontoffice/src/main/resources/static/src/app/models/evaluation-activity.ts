@@ -1,12 +1,14 @@
-import {Activity} from "./activity";
-
-export interface EvaluationActivity extends Activity {
+export interface Activity {
+  id: number;
+  name: string;
+  description: string;
+  activityUnitTestList: ActivityUnitTest[];
   solution: Solution[];
   score: number;
 }
 
 export interface  Solution {
-  id: number;
+  id?: number;
   testsToPass: ActivityUnitTest[];
   code: Code;
   checkOutput: boolean;
@@ -17,6 +19,7 @@ export enum LanguageEnum {
 }
 
 export interface Code {
+  id?: number;
   language: LanguageEnum;
   code: string;
   commentList: Comment[];

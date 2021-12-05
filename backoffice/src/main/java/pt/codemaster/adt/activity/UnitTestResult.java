@@ -1,9 +1,27 @@
 package pt.codemaster.adt.activity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class UnitTestResult {
+    @Id
+    @GeneratedValue
+    private Long id;
+    @ManyToOne
     private ActivityUnitTest unitTest;
     private String result;
     private boolean passed;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public ActivityUnitTest getUnitTest() {
         return unitTest;

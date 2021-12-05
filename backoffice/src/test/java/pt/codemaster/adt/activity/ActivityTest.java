@@ -4,11 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.internal.util.collections.Sets;
 import pt.codemaster.adt.*;
 
+import java.util.Arrays;
+
 class ActivityTest {
 
     @Test
     void createCEADefinition() {
-        CollaborativeEvaluationActivity activity = new CollaborativeEvaluationActivity();
+        Activity activity = new Activity();
         activity.setId(1L);
         activity.setName("Introduction to javascript - Math functions");
         activity.setDescription("In this activity the user identify which number is the largest & smallest in this list: 35, 26, 58, 32, 60, -1, 64 and store in the variable RESULT_MAX e RESULT_MIN");
@@ -21,7 +23,7 @@ class ActivityTest {
         ActivityUnitTest unitTest2 = new ActivityUnitTest();
         unitTest2.setScore(90);
         unitTest2.setCode(new Code(LanguageEnum.JAVASCRIPT, "assert('RESULT_MIN==-1')"));
-        activity.setActivityUnitTestList(Sets.newSet(unitTest1, unitTest2));
+        activity.setActivityUnitTestList(Arrays.asList(unitTest1, unitTest2));
 
         Solution solution1 = new Solution();
         solution1.setId(1L);
@@ -37,15 +39,15 @@ class ActivityTest {
         code2.setScore(0);
         solution2.setCode(code2);
 
-        activity.setSolution(Sets.newSet(solution1, solution2));
+        activity.setSolution(Arrays.asList(solution1, solution2));
 
-        activity.setReferenceSet(Sets.newSet(new BibliographicReference("Test1", "http://www.test1.com"),
+        activity.setReferenceSet(Arrays.asList(new BibliographicReference("Test1", "http://www.test1.com"),
                 new BibliographicReference("Test2", "http://www.test2.com"),
                 new BibliographicReference("Test3", "http://www.test3.com")));
 
         //Resolve a CEA
 
-        ActivityInstance<CollaborativeEvaluationActivity> activityInstance = new ActivityInstance<>(activity);
+        ActivityInstance<Activity> activityInstance = new ActivityInstance<>(activity);
         activityInstance.setId(1L);
         var del1 = new Deliverable(solution1);
         var del2 = new Deliverable(solution2);

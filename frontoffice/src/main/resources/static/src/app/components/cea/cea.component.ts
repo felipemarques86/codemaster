@@ -1,9 +1,8 @@
-import {AfterContentInit, AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivityInstance, Deliverable, UnitTestResult} from "../../models/activity-instance";
 import {ActivityService} from "../../services/activity.service";
 import {ActivatedRoute} from "@angular/router";
-import {CollaborativeEvaluationActivity} from "../../models/collaborative-evaluation-activity";
-import {ActivityUnitTest, Code, LanguageEnum} from "../../models/evaluation-activity";
+import {Activity, ActivityUnitTest, Code, LanguageEnum} from "../../models/evaluation-activity";
 import {CodemirrorComponent} from "@ctrl/ngx-codemirror";
 import {LineHandle, Position} from "codemirror";
 
@@ -14,7 +13,7 @@ import {LineHandle, Position} from "codemirror";
 })
 export class CeaComponent implements OnInit {
 
-  public activityInstance!: ActivityInstance<CollaborativeEvaluationActivity>;
+  public activityInstance!: ActivityInstance<Activity>;
   public deliverable!: Deliverable;
   public passedTests: ActivityUnitTest[] = [];
   public failedTests: any[] = [];
@@ -36,7 +35,7 @@ export class CeaComponent implements OnInit {
             if(!del.readOnly) {
               this.deliverable = del;
             }
-        })
+        });
         setTimeout(() => this.buildComments(this.codemirrorComponent, this.deliverable)  , 100);
         setTimeout(() => {
           let i = 0;
@@ -48,10 +47,6 @@ export class CeaComponent implements OnInit {
     } else {
       throw "ID and UserID required";
     }
-
-
-
-
   }
 
   runTests(runOthers: boolean) {
@@ -154,4 +149,7 @@ export class CeaComponent implements OnInit {
   }
 
 
+  save() {
+
+  }
 }

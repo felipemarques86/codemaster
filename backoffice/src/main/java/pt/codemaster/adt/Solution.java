@@ -2,14 +2,23 @@ package pt.codemaster.adt;
 
 import pt.codemaster.adt.activity.ActivityUnitTest;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 public class Solution {
+    @Id
+    @GeneratedValue
     private Long id;
-    private Set<ActivityUnitTest> testsToPass = new HashSet<>();
+    @OneToMany
+    private List<ActivityUnitTest> testsToPass = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.ALL)
     private Code code;
     private boolean checkOutput;
+
+    public Solution() {
+    }
 
     public Code getCode() {
         return code;
@@ -31,8 +40,12 @@ public class Solution {
         return testsToPass.add(activityUnitTest);
     }
 
-    public Set<ActivityUnitTest> getTestsToPass() {
+    public List<ActivityUnitTest> getTestsToPass() {
         return testsToPass;
+    }
+
+    public void setTestsToPass(List<ActivityUnitTest> testsToPass) {
+        this.testsToPass = testsToPass;
     }
 
     public Long getId() {
