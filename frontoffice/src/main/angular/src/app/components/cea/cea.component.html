@@ -12,7 +12,12 @@
       <div class="row">
         <div class="col">
 
-          <app-codeeditor [code]="deliverable.code" [commentList]="deliverable.code.commentList" [output]="deliverable.output" [currentUser]="currentUser">
+          <app-codeeditor [code]="deliverable.code"
+                          [commentList]="deliverable.code.commentList"
+                          [output]="deliverable.output"
+                          [currentUser]="currentUser"
+                          (onCodeChange)="codeChange($event)"
+                          (onReplyComment)="replyComment($event)">
           </app-codeeditor>
           <br/>
           <button class="btn btn-primary" [disabled]="!deliverable.code.code" (click)="runTests(false)">Correr os meus

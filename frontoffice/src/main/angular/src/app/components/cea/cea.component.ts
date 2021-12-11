@@ -201,4 +201,12 @@ export class CeaComponent implements OnInit {
   get currentUser() {
     return this.deliverable.author;
   }
+
+  codeChange($event: any) {
+    //console.log('codeChange', $event);
+  }
+
+  replyComment($event: any) {
+    //console.log('replyComment', $event);
+  }
 }

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Code, Comment, EndUser} from "../../models/evaluation-activity";
 import {CodemirrorComponent} from "@ctrl/ngx-codemirror";
 import {LineHandle, Position} from "codemirror";
@@ -23,6 +23,10 @@ export class CodeeditorComponent implements OnInit {
   output!: string;
   @Input()
   readOnly: boolean = false;
+  @Output()
+  onCodeChange = new EventEmitter();
+  @Output()
+  onReplyComment = new EventEmitter();
 
   @ViewChild('codemirrorComponent') codemirrorComponent!: CodemirrorComponent;
   @ViewChildren('codemirrorComponentOthers') codemirrorComponentOthers!: QueryList<CodemirrorComponent>;
@@ -60,8 +64,10 @@ export class CodeeditorComponent implements OnInit {
 
   codeChanged() {
     setTimeout( () => {
-      console.log('save code', this.code.code, this.code.id);
-      this.codeService.saveCode(this.code).subscribe(c => this.code = c);
+      this.codeService.saveCode(this.code).subscribe(c => {
+        this.code = c;
+        this.onCodeChange && this.onCodeChange.emit(c);
+      });
     }, 500);
   }
 
@@ -109,6 +115,7 @@ export class CodeeditorComponent implements OnInit {
       if(commentText) {
         this.activityService.replyComment(comment, commentText, this.currentUser).subscribe( c => {
             comment.replies.push(c);
+            this.onReplyComment && this.onReplyComment.emit(c);
         });
       }
   }
