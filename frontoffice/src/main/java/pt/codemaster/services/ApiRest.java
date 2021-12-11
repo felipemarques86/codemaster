@@ -36,6 +36,12 @@ public class ApiRest {
         return activityService.addComment(codeId, userId, line, comment);
     }
 
+    @PostMapping(value="/comment/{commentId}/user/{userId}/reply", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
+    public Comment replyComment(@RequestBody Comment comment, @PathVariable("commentId") Long commentId,
+                             @PathVariable("userId") Long userId) {
+        return activityService.replyComment(userId, commentId, comment);
+    }
+
     @PostMapping(value="/user", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
     public EndUser saveEndUser(@RequestBody EndUser endUser) {
         return activityService.saveEndUser(endUser);

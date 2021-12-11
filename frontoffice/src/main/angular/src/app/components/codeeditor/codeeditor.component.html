@@ -22,7 +22,7 @@
       <li class="list-group-item" *ngFor="let comment of commentList"
           (mouseover)="highlightLine(comment.id)" (mouseout)="removeHighlightLine(comment.id)">
         <span class='badge badge-info'>{{comment.id}}</span>&nbsp;&nbsp;<b>{{comment.author.name}}</b> <span
-        class="badge badge-light">({{comment.date | date:'short'}})</span>: {{comment.content}}
+        class="badge badge-light">({{comment.date | date:'short'}})</span>: {{comment.content}} <button class="btn btn-primary" (click)="reply(comment)">Reply</button>
         <ul class="list-group" style="margin-top: 10px;">
           <li class="list-group-item" *ngFor="let c1 of comment.replies"
               (mouseover)="highlightLine(c1.id)" (mouseout)="removeHighlightLine(c1.id)">

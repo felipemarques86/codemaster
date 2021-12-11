@@ -197,4 +197,8 @@ export class CeaComponent implements OnInit {
 
       }
   }
+
+  get currentUser() {
+    return this.deliverable.author;
+  }
 }

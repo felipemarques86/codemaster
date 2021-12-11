@@ -88,6 +88,22 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    public Comment replyComment(Long userId, Long commentId, Comment comment) {
+
+        Optional<Comment> commentOptional = commentRepository.findById(commentId);
+
+        if(commentOptional.isPresent()) {
+            Comment parent = commentOptional.get();
+            comment.setAuthor(getOrCreateUser(userId));
+            comment.setDate(new Date());
+            parent.getReplies().add(comment);
+            commentRepository.save(parent);
+            return commentRepository.save(comment);
+        }
+        return null;
+    }
+
+    @Override
     public Code getCode(Long id) {
         return codeRepository.findById(id).orElse(null);
     }

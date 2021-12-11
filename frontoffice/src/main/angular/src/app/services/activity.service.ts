@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ActivityInstance} from "../models/activity-instance";
-import {Activity, Code, Comment} from "../models/evaluation-activity";
+import {Activity, Code, Comment, EndUser} from "../models/evaluation-activity";
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +37,13 @@ export class ActivityService {
       `http://localhost/v1/api/code/${code.id}/user/${userId}/comment/${line}`,
       comment
     );
+  }
+
+  replyComment(comment: Comment, commentText: string, currentUser: EndUser) : Observable<Comment> {
+    return this.http.post<Comment>(
+      `http://localhost/v1/api/comment/${comment.id}/user/${currentUser.id}/reply`,
+      {content: commentText}
+    );
+
   }
 }

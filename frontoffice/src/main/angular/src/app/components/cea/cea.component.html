@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col">
 
-          <app-codeeditor [code]="deliverable.code" [commentList]="deliverable.code.commentList" [output]="deliverable.output">
+          <app-codeeditor [code]="deliverable.code" [commentList]="deliverable.code.commentList" [output]="deliverable.output" [currentUser]="currentUser">
           </app-codeeditor>
           <br/>
           <button class="btn btn-primary" [disabled]="!deliverable.code.code" (click)="runTests(false)">Correr os meus
@@ -43,7 +43,7 @@
       <div class="row" *ngFor="let othersDeliverable of getOthersDeliverable() ">
         <div class="col">
           <p>Autor: {{othersDeliverable.author?.name ? othersDeliverable.author.name : '**desconhecido**'}}</p>
-          <app-codeeditor [code]="othersDeliverable.code" [commentList]="othersDeliverable.code.commentList" [readOnly]="true" [output]="othersDeliverable.output">
+          <app-codeeditor [code]="othersDeliverable.code" [commentList]="othersDeliverable.code.commentList" [readOnly]="true" [output]="othersDeliverable.output" [currentUser]="currentUser">
           </app-codeeditor>
           <br/>
           <button class="btn btn-info" (click)="addComment(othersDeliverable.code)">Adicionar Comentário</button>&nbsp;&nbsp;

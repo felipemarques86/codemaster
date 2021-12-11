@@ -1,8 +1,9 @@
 import {Component, Input, OnInit, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {Code, Comment} from "../../models/evaluation-activity";
+import {Code, Comment, EndUser} from "../../models/evaluation-activity";
 import {CodemirrorComponent} from "@ctrl/ngx-codemirror";
 import {LineHandle, Position} from "codemirror";
 import {CodeService} from "../../services/code.service";
+import {ActivityService} from "../../services/activity.service";
 
 @Component({
   selector: 'app-codeeditor',
@@ -13,6 +14,8 @@ export class CodeeditorComponent implements OnInit {
 
   @Input()
   commentList: Comment[]  = [];
+  @Input()
+  currentUser!: EndUser;
   @Input()
   code!: Code;
   @Input()
@@ -25,7 +28,7 @@ export class CodeeditorComponent implements OnInit {
   @ViewChildren('codemirrorComponentOthers') codemirrorComponentOthers!: QueryList<CodemirrorComponent>;
 
 
-  constructor(private codeService: CodeService) { }
+  constructor(private codeService: CodeService, private activityService: ActivityService) { }
 
   ngOnInit(): void {
     setTimeout(() => this.buildComments()  , 100);
@@ -42,8 +45,6 @@ export class CodeeditorComponent implements OnInit {
           comment.parentElement.parentElement.parentElement.parentElement.style.textDecoration = "underline wavy white";
         }
       }, 50);
-    } else {
-      console.error('Comment_' + id + " not found");
     }
   }
 
@@ -101,5 +102,14 @@ export class CodeeditorComponent implements OnInit {
       }
       n++;
     });
+  }
+
+  reply(comment: Comment) {
+      const commentText = prompt('Comentário: ');
+      if(commentText) {
+        this.activityService.replyComment(comment, commentText, this.currentUser).subscribe( c => {
+            comment.replies.push(c);
+        });
+      }
   }
 }

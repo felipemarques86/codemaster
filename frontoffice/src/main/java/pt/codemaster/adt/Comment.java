@@ -14,7 +14,7 @@ public class Comment {
     private EndUser author;
     private Date date;
     private String content;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> replies = new ArrayList<>();
 
     public Comment() {

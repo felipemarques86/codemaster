@@ -15,4 +15,5 @@ public interface ActivityService {
     Code saveCode(Code code);
     EndUser saveEndUser(EndUser endUser);
     Code addComment(Long codeId, Long userId, Long line, Comment comment);
+    Comment replyComment(Long userId, Long commentId, Comment comment);
 }
