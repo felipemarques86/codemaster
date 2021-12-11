@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,7 +18,7 @@ public class Code {
     @Enumerated(EnumType.STRING)
     private LanguageEnum language;
     private String code;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
     private double score;
 
@@ -76,22 +75,19 @@ public class Code {
         this.author = author;
     }
 
-    public void addComment(int linha, String commentText, EndUser author) {
-        Comment comment = new Comment();
-        comment.setDate(new Date());
-        comment.setContent(commentText);
-        comment.setAuthor(author);
+    public boolean add(Comment comment) {
+        return commentList.add(comment);
+    }
 
+    public void addCommentText(int line, Comment comment) {
         if(code == null) {
             code = "";
         }
         String[] split = code.split("\n");
-        if(split.length < linha) {
-            linha = 1;
+        if(split.length < line) {
+            line = 1;
         }
-        split[linha-1] = split[linha-1] + "/**<comment>" + comment.getId() + "</comment>**/";
+        split[line-1] = split[line-1] + "/**<comment>" + comment.getId() + "</comment>**/";
         this.code = StringUtils.joinWith("\n", split);
-
-        this.commentList.add(comment);
     }
 }

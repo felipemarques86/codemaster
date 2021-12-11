@@ -9,8 +9,8 @@ export interface ActivityInstance<T extends Activity> {
   deliverable: Deliverable[];
 }
 
-
 export interface Deliverable {
+  id?: number;
   author: EndUser;
   content: string;
   code: Code;
@@ -18,6 +18,10 @@ export interface Deliverable {
   solution: Solution;
   submitted: boolean;
   readOnly: boolean;
+  /* Temp */
+  output: string;
+
+
 }
 
 export interface UnitTestResult {

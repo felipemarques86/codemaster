@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~codemirror/lib/codemirror';
 @import '~codemirror/theme/material';
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 .CodeMirror pre.CodeMirror-line,
 .CodeMirror pre.CodeMirror-line-like, .CodeMirror-linenumber {
   font-size: 20px;

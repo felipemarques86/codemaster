@@ -1,10 +1,10 @@
 package pt.codemaster.repositories;
 
-import pt.codemaster.adt.ActivityInstance;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import pt.codemaster.adt.ActivityInstance;
 import pt.codemaster.adt.activity.Activity;
 
 @Repository
-public interface ActivityInstanceRepository extends CrudRepository<ActivityInstance<Activity>, Long> {
+public interface ActivityInstanceRepository extends JpaRepository<ActivityInstance<Activity>, Long> {
 }

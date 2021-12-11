@@ -16,10 +16,8 @@ public class Comment {
     private String content;
     @OneToMany
     private List<Comment> replies = new ArrayList<>();
-    private static long ids = 0;
 
     public Comment() {
-        this.id = ids++;
     }
 
     public EndUser getAuthor() {

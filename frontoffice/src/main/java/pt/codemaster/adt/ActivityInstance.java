@@ -16,7 +16,7 @@ public class ActivityInstance<A extends Activity> {
     private Date endDate;
     @ManyToOne(targetEntity = Activity.class)
     private A activity;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Deliverable> deliverable = new ArrayList<>();
 
     public ActivityInstance() {
@@ -60,5 +60,9 @@ public class ActivityInstance<A extends Activity> {
 
     public void setDeliverable(List<Deliverable> deliverable) {
         this.deliverable = deliverable;
+    }
+
+    public void setActivity(A activity) {
+        this.activity = activity;
     }
 }

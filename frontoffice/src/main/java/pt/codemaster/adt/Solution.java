@@ -11,7 +11,7 @@ public class Solution {
     @Id
     @GeneratedValue
     private Long id;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<ActivityUnitTest> testsToPass = new ArrayList<>();
     @ManyToOne(cascade = CascadeType.ALL)
     private Code code;

@@ -14,7 +14,7 @@ public class Activity {
     private String name;
     private String description;
     @OneToMany(cascade = CascadeType.ALL)
-    private List<BibliographicReference> referenceSet = new ArrayList<>();
+    private List<BibliographicReference> bibliographicReferenceList = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
     private List<Solution> solution = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
@@ -45,12 +45,12 @@ public class Activity {
         this.description = description;
     }
 
-    public List<BibliographicReference> getReferenceSet() {
-        return referenceSet;
+    public List<BibliographicReference> getBibliographicReferenceList() {
+        return bibliographicReferenceList;
     }
 
-    public void setReferenceSet(List<BibliographicReference> referenceSet) {
-        this.referenceSet = referenceSet;
+    public void setBibliographicReferenceList(List<BibliographicReference> referenceSet) {
+        this.bibliographicReferenceList = referenceSet;
     }
 
     public List<Solution> getSolution() {
@@ -83,7 +83,7 @@ public class Activity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", referenceSet=" + referenceSet +
+                ", referenceSet=" + bibliographicReferenceList +
                 ", solution=" + solution +
                 ", activityUnitTestList=" + activityUnitTestList +
                 ", score=" + score +

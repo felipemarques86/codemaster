@@ -6,6 +6,7 @@ import org.springframework.context.annotation.*;
 import javax.sql.DataSource;
 
 @Configuration
+@Profile("prod")
 public class DataBaseConfig {
     @Value("${spring.datasource.url}")
     private String dbUrl;

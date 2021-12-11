@@ -14,7 +14,7 @@ public class Deliverable {
     @ManyToOne
     private EndUser author;
     private String content;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Code code;
     @OneToMany
     private List<UnitTestResult> result = new ArrayList<>();

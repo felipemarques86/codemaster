@@ -1,13 +1,11 @@
 package pt.codemaster.adt;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class EndUser {
     @Id
-    @GeneratedValue
     private Long id;
     private String name;
 
@@ -33,5 +31,13 @@ public class EndUser {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "EndUser{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

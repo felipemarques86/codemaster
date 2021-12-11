@@ -2,8 +2,9 @@ import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/co
 import {ActivityInstance, Deliverable, UnitTestResult} from "../../models/activity-instance";
 import {ActivityService} from "../../services/activity.service";
 import {ActivatedRoute} from "@angular/router";
-import {Activity, ActivityUnitTest, Code, LanguageEnum} from "../../models/evaluation-activity";
+import {Activity, ActivityUnitTest, Code, Comment, LanguageEnum} from "../../models/evaluation-activity";
 import {CodemirrorComponent} from "@ctrl/ngx-codemirror";
+import {EndUserService} from "../../services/end-user.service";
 import {LineHandle, Position} from "codemirror";
 
 @Component({
@@ -20,8 +21,10 @@ export class CeaComponent implements OnInit {
   @ViewChild('codemirrorComponent') codemirrorComponent!: CodemirrorComponent;
   @ViewChildren('codemirrorComponentOthers') codemirrorComponentOthers!: QueryList<CodemirrorComponent>;
   ASSERT_FUNC = "function assert(cond){ try{ if(!eval(cond)) { throw 'Assertion ' + cond + ' is FALSE'} } catch(e) { throw e; } }";
+  codeOutput!: string;
 
   constructor(private activityService: ActivityService,
+              private endUserService: EndUserService,
               private route: ActivatedRoute) { }
 
 
@@ -30,19 +33,27 @@ export class CeaComponent implements OnInit {
     const userId = this.route.snapshot.paramMap.get('userId');
     if(id && userId) {
       this.activityService.getActivityInstance(+id, +userId).subscribe(instance => {
+        if(!instance) {
+          alert("Esta atividade não está disponível.");
+          return;
+        }
+
         this.activityInstance = instance;
         this.activityInstance.deliverable.forEach( del =>{
-            if(!del.readOnly) {
+            if(del.author && del.author.id == +userId) {
               this.deliverable = del;
+              if(!this.deliverable.author.name) {
+                let authorName = null;
+                do {
+                  authorName = prompt('Qual o seu nome completo?');
+                } while(!authorName);
+                this.deliverable.author.name = authorName;
+                this.endUserService.saveEndUser(this.deliverable.author).subscribe( endUser => {
+                  console.log(endUser);
+                })
+              }
             }
         });
-        setTimeout(() => this.buildComments(this.codemirrorComponent, this.deliverable)  , 100);
-        setTimeout(() => {
-          let i = 0;
-          this.codemirrorComponentOthers.forEach( cm => {
-            this.buildComments(cm, this.getOthersDeliverable()[i++]);
-          })
-        }, 100);
       });
     } else {
       throw "ID and UserID required";
@@ -59,7 +70,8 @@ export class CeaComponent implements OnInit {
       });
 
     } else {
-      this.activityInstance.deliverable.filter( d => d.readOnly).forEach( del => {
+      this.activityInstance.deliverable.filter( d => d.id != this.deliverable.id).forEach( del => {
+        del.result = [];
         del.solution.testsToPass.forEach( test => {
           let failed: any[] = [], passed: any[] = [];
           this.runTest(test, del.code, failed, passed);
@@ -102,10 +114,10 @@ export class CeaComponent implements OnInit {
   }
 
   getOthersDeliverable() {
-    return this.activityInstance.deliverable.filter( d => d.readOnly);
+    return this.activityInstance.deliverable.filter( (d: Deliverable) => d.id != this.deliverable.id);
   }
 
-  highlightLine(id: number) {
+  highlightLine(id?: number) {
     let comment =  document.getElementById("comment_" + id);
     if(comment && comment.parentElement) {
       setTimeout(() => {
@@ -115,7 +127,7 @@ export class CeaComponent implements OnInit {
     }
   }
 
-  removeHighlightLine(id: number) {
+  removeHighlightLine(id?: number) {
     let comment =  document.getElementById("comment_" + id);
     if(comment && comment.parentElement) {
       setTimeout( () => {
@@ -148,8 +160,41 @@ export class CeaComponent implements OnInit {
     });
   }
 
+  executar(deliverable: Deliverable) {
+    let output = '';
 
-  save() {
+    const consoleCode = '{\n' +
+    '  const log = console.log.bind(console)\n' +
+    '  console.log = (...args) => {\n' +
+    "    output += JSON.stringify(args) + '<br />';\n" +
+    '  }';
 
+    const consoleCodeEnd = 'console.log = log;';
+
+    const fullCode = consoleCode + '\r\n' + deliverable.code.code + consoleCodeEnd +'}';
+    eval(fullCode);
+
+    deliverable.output = output;
+  }
+
+  addComment(code: Code) {
+      let line = prompt('Linha: ');
+      line = line ? line : '1';
+      const commentText = prompt('Comentário: ');
+      if(commentText) {
+        const comment: Comment = {
+            id: undefined,
+            content: commentText,
+            date: new Date(),
+            author: this.deliverable.author,
+            replies: []
+        };
+
+        this.activityService.addComment(code, comment, +line, this.deliverable.author.id).subscribe( code => {
+            code.code = code.code;
+        });
+
+
+      }
   }
 }

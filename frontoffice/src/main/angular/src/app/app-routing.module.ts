@@ -12,6 +12,10 @@ const routes: Routes = [
     path: 'cea/new',
     component: ConfigActivityComponent
   },
+  {
+    path: 'cea/:id',
+    component: ConfigActivityComponent
+  },
 ];
 
 @NgModule({

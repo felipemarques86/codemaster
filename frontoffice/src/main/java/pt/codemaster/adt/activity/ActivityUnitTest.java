@@ -2,17 +2,14 @@ package pt.codemaster.adt.activity;
 
 import pt.codemaster.adt.Code;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class ActivityUnitTest {
     @Id
     @GeneratedValue
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Code code;
     private String expectedResult;
     private boolean performance;

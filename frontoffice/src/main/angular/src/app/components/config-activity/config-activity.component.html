@@ -1,0 +1,240 @@
+<div class="row">
+  <div class="col">
+
+
+    <div class="jumbotron">
+      <h1 class="display-4">Atividade de Avaliação Colaborativa</h1>
+      <p class="lead">Olá!</p>
+      <p class="lead">Configuração da atividade</p>
+      <hr class="my-4">
+      <p>Siga os passos do wizard para configurar a atividade.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <form>
+      <div id="step1" *ngIf="step === 1">
+        <div class="form-group">
+          <label>Nome da Atividade</label>
+          <input [formControl]="name" type="text" class="form-control" placeholder="Escreva aqui o nome da atividade">
+          <small class="form-text text-muted">Nome da atividade de avaliação colaborativa.</small>
+        </div>
+        <div class="form-group">
+          <label>Descrição</label>
+          <textarea [formControl]="description" type="text" class="form-control">
+
+        </textarea>
+          <small class="form-text text-muted">Descreva o problema a ser resolvido pelos utilizadores. Defina com o
+            máximo de detalhe possível.</small>
+        </div>
+
+      </div>
+
+
+      <div id="step2" *ngIf="step === 2">
+        <button type="button" class="btn btn-info" (click)="addSolution()">+ Adicionar Solução</button>
+        <br style="clear: both"/>
+        <br style="clear: both"/>
+
+        <div *ngFor="let solution of solutions">
+
+          <div class="row">
+            <div class="col" #codeeditor>
+              <ngx-codemirror
+                #codemirrorComponent
+                (ngModelChange)="codeChanged()"
+                [(ngModel)]="solution.code.code"
+                [ngModelOptions]="{standalone: true}"
+                [options]="{
+                      lineNumbers: true,
+                      theme: 'material',
+                      mode: 'javascript'
+                    }"
+              ></ngx-codemirror>
+            </div>
+          </div>
+
+          <br style="clear: both"/>
+
+        </div>
+      </div>
+
+      <div id="step3" *ngIf="step === 3">
+        <div class="row">
+          <div class="col">
+            <select class="form-control" [formControl]="selectedSolution">
+              <option *ngFor="let solution of solutions; let i = index;" [ngValue]="solution">Solução {{i + 1}}</option>
+            </select>
+            <br/>
+            <button type="button" class="btn btn-info" (click)="addSolutionTest()">+ Adicionar Teste Específico</button>&nbsp;&nbsp;<button
+            type="button" class="btn btn-info" (click)="addGlobalTest()">+ Adicionar Teste Global
+          </button>
+            <br/> <br/>
+            <div class="row" *ngFor="let test of this.selectedSolution.value.testsToPass; let ti =  index;">
+              <div class="col">
+                <h3>Teste #{{ti + 1}} para a solução</h3>
+                <div class="row">
+                  <div class="col-9" #codeeditor>
+                    <ngx-codemirror
+                      #codemirrorComponent
+                      (ngModelChange)="codeChanged()"
+                      [(ngModel)]="test.code.code"
+                      [ngModelOptions]="{standalone: true}"
+                      [options]="{
+                                  lineNumbers: true,
+                                  theme: 'material',
+                                  mode: 'javascript'
+                                }"></ngx-codemirror>
+                    <br/>
+                    <button class="btn btn-secondary" (click)="validate(test)">Validar</button>
+                    <br/><br/>
+                    <div class="bi bi-check-circle alert alert-success" role="alert" *ngIf="test.passed === true">
+                      Passou
+                    </div>
+
+                    <div class="bi bi-exclamation-triangle alert alert-danger" role="alert"
+                         *ngIf="test.passed === false">
+                      Falhou: {{test.message}}
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <br/>
+                    <div class="form-group">
+                      <label class="form-check-label">Peso na avaliação</label>
+                      <input type="range" class="form-control-range" [(ngModel)]="test.score"
+                             [ngModelOptions]="{standalone: true}">
+                      <b>{{test.score}}%</b>
+                    </div>
+                    <div class="form-group form-check">
+                      <input type="checkbox" class="form-check-input" [(ngModel)]="test.performance"
+                             [ngModelOptions]="{standalone: true}">
+                      <label class="form-check-label">Este é um teste de Performance</label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row" *ngFor="let test of this.activityTests; let ti =  index;">
+              <div class="col">
+                <h3>Teste GLOBAL #{{ti + 1}}</h3>
+                <div class="row">
+                  <div class="col-9" #codeeditor>
+                    <ngx-codemirror
+                      #codemirrorComponent
+                      (ngModelChange)="codeChanged()"
+                      [(ngModel)]="test.code.code"
+                      [ngModelOptions]="{standalone: true}"
+                      [options]="{
+                                  lineNumbers: true,
+                                  theme: 'material',
+                                  mode: 'javascript'
+                                }"></ngx-codemirror>
+                    <br/>
+                    <button class="btn btn-secondary" (click)="validateGlobalTest(test)">Validar</button>
+                    <br/><br/>
+                    <div class="bi bi-check-circle alert alert-success" role="alert" *ngIf="test.passed === true">
+                      Passou
+                    </div>
+
+                    <div class="bi bi-exclamation-triangle alert alert-danger" role="alert"
+                         *ngIf="test.passed === false">
+                      Falhou: {{test.message}}
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <br/>
+                    <div class="form-group">
+                      <label class="form-check-label">Peso na avaliação</label>
+                      <input type="range" class="form-control-range" [(ngModel)]="test.score"
+                             [ngModelOptions]="{standalone: true}">
+                      <b>{{test.score}}%</b>
+                    </div>
+                    <div class="form-group form-check">
+                      <input type="checkbox" class="form-check-input" [(ngModel)]="test.performance"
+                             [ngModelOptions]="{standalone: true}">
+                      <label class="form-check-label">Este é um teste de Performance</label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="step4" *ngIf="step === 4" class="row">
+        <div class="col">
+          <br/>
+          <br/>
+          <button type="button" class="btn btn-primary" (click)="addOrEditBr(content, undefined)">Adicionar Referência
+            Bibliográfica
+          </button>
+          <br/>
+          <br/>
+
+          <ng-template #content let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="name">Nome da Referência</label>
+                  <input id="name" class="form-control" [formControl]="nameBr" type="text"
+                         placeholder="Nome da Referência">
+                </div>
+                <div class="form-group">
+                  <label for="url">Link</label>
+                  <input id="url" class="form-control" [formControl]="urlBr" type="url" placeholder="Link">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+            </div>
+          </ng-template>
+
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">URL</th>
+              <th scope="col">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ref of bibliographicReferenceList; index as i">
+              <th scope="row">{{i + 1}}</th>
+              <td>
+                {{ref.name}}
+              </td>
+              <td><a [href]="ref.url">{{ref.url}}</a></td>
+              <td>
+                <button class="btn btn-primary" (click)="addOrEditBr(content, ref)">Editar</button>
+                &nbsp;&nbsp;&nbsp;<button class="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <br/><br/><br/>
+      <button type="submit" class="btn btn-primary" (click)="previousStep()">Anterior</button>&nbsp;&nbsp;
+      <button type="submit" class="btn btn-primary" (click)="nextStep()">Seguinte</button>&nbsp;&nbsp;
+      <button type="submit" class="btn btn-primary" (click)="saveActivity()">Guardar</button>
+      <br/><br/><br/>
+    </form>
+  </div>
+</div>

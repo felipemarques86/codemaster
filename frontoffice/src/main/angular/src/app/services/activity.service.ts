@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ActivityInstance} from "../models/activity-instance";
-import {Activity} from "../models/evaluation-activity";
+import {Activity, Code, Comment} from "../models/evaluation-activity";
 
 @Injectable({
   providedIn: 'root'
@@ -26,4 +26,16 @@ export class ActivityService {
   }
 
 
+  getActivity(id: number): Observable<Activity> {
+    return this.http.get<Activity>(
+      `http://localhost/v1/api/activity/${id}/`
+    );
+  }
+
+  addComment(code: Code, comment: Comment, line: number, userId: number) {
+    return this.http.post<Code>(
+      `http://localhost/v1/api/code/${code.id}/user/${userId}/comment/${line}`,
+      comment
+    );
+  }
 }

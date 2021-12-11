@@ -7,59 +7,47 @@
         <p class="lead">Olá {{deliverable.author.name}}!</p>
         <p class="lead"> {{activityInstance.activity.description}}</p>
         <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-        <p class="lead">
-          <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </p>
       </div>
 
       <div class="row">
         <div class="col">
 
-          <app-codeeditor [code]="deliverable.code" [commentList]="deliverable.code.commentList">
+          <app-codeeditor [code]="deliverable.code" [commentList]="deliverable.code.commentList" [output]="deliverable.output">
           </app-codeeditor>
           <br/>
           <button class="btn btn-primary" [disabled]="!deliverable.code.code" (click)="runTests(false)">Correr os meus
             testes <span class="badge badge-light">{{deliverable.solution.testsToPass.length}}</span></button>&nbsp;&nbsp;
           <button class="btn btn-primary" [disabled]="!deliverable.code.code" (click)="runTests(true)">Correr os testes
             dos meus colegas <span class="badge badge-light">{{activityInstance.deliverable.length - 1}}</span></button>&nbsp;&nbsp;
-          <button class="btn btn-info">Adicionar Comentário</button>
+          <button class="btn btn-info" (click)="addComment(deliverable.code)">Adicionar Comentário</button>&nbsp;&nbsp;
+          <button class="btn btn-primary" (click)="executar(deliverable)">Executar</button>
           <br/>
           <br/>
-
           <div *ngIf="failedTests.length > 0">
-
             <div *ngFor="let t of passedTests">
               <div class="alert alert-success" role="alert">
                 <b>Passou no teste {{t.id}}</b>
               </div>
-
             </div>
             <div *ngFor="let t of failedTests">
               <div class="alert alert-danger" role="alert">
                 Falhou no teste ({{t.test.id}}) - causa: {{t.error}}
               </div>
             </div>
-
           </div>
-
-
           <div *ngIf="failedTests.length === 0 && passedTests.length > 0" class="alert alert-success" role="alert">
             <b>Passou em todos os testes!</b>
           </div>
-
         </div>
       </div>
-
       <div class="row" *ngFor="let othersDeliverable of getOthersDeliverable() ">
-
-
         <div class="col">
-          <p>Autor: {{othersDeliverable.author.name}}</p>
-          <app-codeeditor [code]="othersDeliverable.code" [commentList]="othersDeliverable.code.commentList">
+          <p>Autor: {{othersDeliverable.author?.name ? othersDeliverable.author.name : '**desconhecido**'}}</p>
+          <app-codeeditor [code]="othersDeliverable.code" [commentList]="othersDeliverable.code.commentList" [readOnly]="true" [output]="othersDeliverable.output">
           </app-codeeditor>
           <br/>
-          <button class="btn btn-info">Adicionar Comentário</button>&nbsp;&nbsp;
+          <button class="btn btn-info" (click)="addComment(othersDeliverable.code)">Adicionar Comentário</button>&nbsp;&nbsp;
+          <button class="btn btn-primary" (click)="executar(othersDeliverable)">Executar</button>
           <br/>
           <br/>
           <div *ngFor="let t of othersDeliverable.result">
@@ -69,14 +57,9 @@
             <div class="alert alert-danger" role="alert" *ngIf="!t.passed">
               <b>Falhou no teste {{t.unitTest.id}}</b>
             </div>
-
           </div>
         </div>
-
       </div>
-
-
     </div>
-
   </div>
 </div>
