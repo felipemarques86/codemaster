@@ -20,7 +20,7 @@ export class CodeService {
 
   getCode(id?: number) {
     return this.http.get<Code>(
-      `http://localhost/v1/api/code/${id}`
+      `${environment.base}/v1/api/code/${id}`
     );
   }
 
