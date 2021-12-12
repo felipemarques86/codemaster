@@ -6,7 +6,7 @@ import pt.codemaster.adt.activity.Activity;
 
 import java.util.List;
 
-public interface AnalyticsService {
+public interface IAnalyticsService {
     ActivityAnalytics save(String name, String value, Deliverable deliverable);
     List<ActivityAnalytics> getAnalytics(Activity activity);
 }

@@ -13,7 +13,7 @@ export class CodeService {
 
   saveCode(code: Code) {
     return this.http.post<Code>(
-      `${environment.base}v1/api/code/`,
+      `${environment.base}/v1/api/code/`,
       code
     );
   }

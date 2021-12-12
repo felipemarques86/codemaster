@@ -20,8 +20,6 @@ public class Activity {
     private List<BibliographicReference> bibliographicReferenceList = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
     private List<Solution> solution = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<ActivityUnitTest> activityUnitTestList = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -63,14 +61,6 @@ public class Activity {
         this.solution = solution;
     }
 
-    public List<ActivityUnitTest> getActivityUnitTestList() {
-        return activityUnitTestList;
-    }
-
-    public void setActivityUnitTestList(List<ActivityUnitTest> activityUnitTestList) {
-        this.activityUnitTestList = activityUnitTestList;
-    }
-
     @Override
     public String toString() {
         return "Activity{" +
@@ -79,7 +69,6 @@ public class Activity {
                 ", description='" + description + '\'' +
                 ", referenceSet=" + bibliographicReferenceList +
                 ", solution=" + solution +
-                ", activityUnitTestList=" + activityUnitTestList +
                 '}';
     }
 }

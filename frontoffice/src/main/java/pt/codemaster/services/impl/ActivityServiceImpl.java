@@ -1,4 +1,4 @@
-package pt.codemaster.services;
+package pt.codemaster.services.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pt.codemaster.adt.*;
 import pt.codemaster.adt.activity.Activity;
 import pt.codemaster.repositories.*;
+import pt.codemaster.services.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,9 +16,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ActivityServiceImpl implements ActivityService {
+public class ActivityServiceImpl implements IActivityService, IDeploymentService, IActivityDefinitionService {
 
-    private static final Logger logger = LoggerFactory.getLogger(ActivityService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ActivityServiceImpl.class);
 
     @Autowired
     private ActivityDefinitionRepository activityDefinitionRepository;
@@ -26,7 +27,7 @@ public class ActivityServiceImpl implements ActivityService {
     private ActivityInstanceRepository activityInstanceRepository;
 
     @Autowired
-    private EndUserRepository endUserRepository;
+    private IUserService usersInternalRepository;
 
     @Autowired
     private CodeRepository codeRepository;
@@ -73,10 +74,6 @@ public class ActivityServiceImpl implements ActivityService {
         return codeRepository.save(code);
     }
 
-    @Override
-    public EndUser saveEndUser(EndUser endUser) {
-        return endUserRepository.save(endUser);
-    }
 
     @Override
     public Code addComment(Long codeId, String userId, Long line, Comment comment) {
@@ -85,7 +82,7 @@ public class ActivityServiceImpl implements ActivityService {
 
         if(codeOptional.isPresent()) {
             Code code = codeOptional.get();
-            comment.setAuthor(getOrCreateUser(userId));
+            comment.setAuthor(usersInternalRepository.getOrCreateUser(userId));
             comment.setDate(new Date());
             code.add(comment);
             comment = commentRepository.save(comment);
@@ -102,7 +99,7 @@ public class ActivityServiceImpl implements ActivityService {
 
         if(commentOptional.isPresent()) {
             Comment parent = commentOptional.get();
-            comment.setAuthor(getOrCreateUser(userId));
+            comment.setAuthor(usersInternalRepository.getOrCreateUser(userId));
             comment.setDate(new Date());
             parent.getReplies().add(comment);
             commentRepository.save(parent);
@@ -176,8 +173,8 @@ public class ActivityServiceImpl implements ActivityService {
             return instance;
         } else {
             Deliverable deliverable1 = deliverable.get();
-            deliverable1.setAuthor(getOrCreateUser(userId));
-            deliverable1.getCode().setAuthor(getOrCreateUser(userId));
+            deliverable1.setAuthor(usersInternalRepository.getOrCreateUser(userId));
+            deliverable1.getCode().setAuthor(usersInternalRepository.getOrCreateUser(userId));
         }
 
         this.activityInstanceRepository.save(instance);
@@ -185,15 +182,6 @@ public class ActivityServiceImpl implements ActivityService {
         return instance;
     }
 
-    private EndUser getOrCreateUser(String userId) {
-        Optional<EndUser> optionalEndUser = endUserRepository.findById(userId);
-        if(optionalEndUser.isEmpty()) {
-            EndUser endUser = new EndUser();
-            endUser.setId(userId);
-            return endUserRepository.save(endUser);
-        } else {
-            return optionalEndUser.get();
-        }
-    }
+
 
 }

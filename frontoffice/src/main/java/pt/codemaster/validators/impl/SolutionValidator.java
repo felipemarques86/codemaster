@@ -1,11 +1,14 @@
-package pt.codemaster.validators;
+package pt.codemaster.validators.impl;
 
 import pt.codemaster.adt.Solution;
+import pt.codemaster.validators.adt.ValidationError;
+import pt.codemaster.validators.adt.BaseValidator;
+import pt.codemaster.validators.adt.EntityValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SolutionValidator extends BaseValidator implements EntityValidator<Solution>{
+public class SolutionValidator extends BaseValidator implements EntityValidator<Solution> {
 
     private static SolutionValidator INSTANCE;
     private SolutionValidator() {

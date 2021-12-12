@@ -14,7 +14,7 @@ export class EndUserService {
   saveEndUser(endUser: EndUser) {
     console.log('Save user', endUser);
     return this.http.post<EndUser>(
-      `${environment.base}v1/api/user/`,
+      `${environment.base}/v1/api/user/`,
       endUser
     );
   }

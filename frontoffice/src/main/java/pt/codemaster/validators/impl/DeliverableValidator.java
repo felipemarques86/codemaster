@@ -1,6 +1,9 @@
-package pt.codemaster.validators;
+package pt.codemaster.validators.impl;
 
 import pt.codemaster.adt.Deliverable;
+import pt.codemaster.validators.adt.ValidationError;
+import pt.codemaster.validators.adt.BaseValidator;
+import pt.codemaster.validators.adt.EntityValidator;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package pt.codemaster.services;
+package pt.codemaster.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,12 +6,13 @@ import pt.codemaster.adt.analytics.ActivityAnalytics;
 import pt.codemaster.adt.Deliverable;
 import pt.codemaster.adt.activity.Activity;
 import pt.codemaster.repositories.ActivityAnalyticsRepository;
+import pt.codemaster.services.IAnalyticsService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AnalyticsServiceImpl implements AnalyticsService {
+public class AnalyticsServiceImpl implements IAnalyticsService {
 
     @Autowired
     private ActivityAnalyticsRepository activityAnalyticsRepository;

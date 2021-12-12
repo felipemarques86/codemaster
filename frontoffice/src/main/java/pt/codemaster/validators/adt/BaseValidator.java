@@ -1,4 +1,4 @@
-package pt.codemaster.validators;
+package pt.codemaster.validators.adt;
 
 import org.apache.commons.lang3.StringUtils;
 

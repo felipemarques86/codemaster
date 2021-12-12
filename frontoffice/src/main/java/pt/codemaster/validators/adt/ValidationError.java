@@ -1,4 +1,4 @@
-package pt.codemaster.validators;
+package pt.codemaster.validators.adt;
 
 public class ValidationError {
     private String field;

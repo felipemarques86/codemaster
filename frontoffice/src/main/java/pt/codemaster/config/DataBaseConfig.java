@@ -1,4 +1,4 @@
-package pt.codemaster.services;
+package pt.codemaster.config;
 
 import com.zaxxer.hikari.*;
 import org.springframework.beans.factory.annotation.Value;

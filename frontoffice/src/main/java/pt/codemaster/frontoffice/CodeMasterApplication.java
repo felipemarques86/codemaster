@@ -8,12 +8,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EntityScan("pt.codemaster.adt")
-@ComponentScan(basePackages = {"pt.codemaster.services"})
+@ComponentScan(basePackages = {"pt.codemaster.services", "pt.codemaster.rest", "pt.codemaster.config"})
 @EnableJpaRepositories("pt.codemaster.repositories")
-public class FrontofficeApplication {
+public class CodeMasterApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FrontofficeApplication.class, args);
+        SpringApplication.run(CodeMasterApplication.class, args);
     }
 
 }

@@ -1,4 +1,4 @@
-package pt.codemaster.validators;
+package pt.codemaster.validators.adt;
 
 import java.util.ArrayList;
 import java.util.List;

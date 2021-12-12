@@ -1,7 +1,9 @@
-package pt.codemaster.validators;
+package pt.codemaster.validators.impl;
 
-import com.google.javascript.jscomp.CompilationLevel;
 import pt.codemaster.adt.Code;
+import pt.codemaster.validators.adt.ValidationError;
+import pt.codemaster.validators.adt.BaseValidator;
+import pt.codemaster.validators.adt.EntityValidator;
 
 import java.util.ArrayList;
 import java.util.List;

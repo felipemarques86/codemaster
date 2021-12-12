@@ -569,6 +569,7 @@ class CeaComponent {
             '  }';
         const consoleCodeEnd = 'console.log = log;';
         const fullCode = consoleCode + '\r\n' + deliverable.code.code + consoleCodeEnd + '}';
+        console.log(fullCode);
         eval(fullCode);
         deliverable.output = output;
     }
@@ -593,8 +594,8 @@ class CeaComponent {
     get currentUser() {
         return this.deliverable.author;
     }
-    codeChangeEvent($event) {
-        //console.log('codeChange', $event);
+    codeChangeEvent(code) {
+        this.deliverable.code.code = code.code;
     }
     replyCommentEvent($event) {
         //console.log('replyComment', $event);
@@ -1690,7 +1691,7 @@ class CodeService {
         this.http = http;
     }
     saveCode(code) {
-        return this.http.post(`${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.base}v1/api/code/`, code);
+        return this.http.post(`${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.base}/v1/api/code/`, code);
     }
     getCode(id) {
         return this.http.get(`http://localhost/v1/api/code/${id}`);
@@ -1724,7 +1725,7 @@ class EndUserService {
     }
     saveEndUser(endUser) {
         console.log('Save user', endUser);
-        return this.http.post(`${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.base}v1/api/user/`, endUser);
+        return this.http.post(`${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.base}/v1/api/user/`, endUser);
     }
 }
 EndUserService.ɵfac = function EndUserService_Factory(t) { return new (t || EndUserService)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpClient)); };

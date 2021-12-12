@@ -202,6 +202,7 @@ export class CeaComponent implements OnInit {
     const consoleCodeEnd = 'console.log = log;';
 
     const fullCode = consoleCode + '\r\n' + deliverable.code.code + consoleCodeEnd +'}';
+    console.log(fullCode);
     eval(fullCode);
 
     deliverable.output = output;
@@ -231,8 +232,8 @@ export class CeaComponent implements OnInit {
     return this.deliverable.author;
   }
 
-  codeChangeEvent($event: any) {
-    //console.log('codeChange', $event);
+  codeChangeEvent(code: Code) {
+    this.deliverable.code.code = code.code;
   }
 
   replyCommentEvent($event: any) {
