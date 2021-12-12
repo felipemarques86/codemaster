@@ -135,10 +135,10 @@ public class ApiRest {
         Activity activity = activityService.getActivity(Long.parseLong(request.getActivityID()));
         if( activity != null) {
             List<ActivityAnalytics> analytics = analyticsService.getAnalytics(activity);
-            List<ActivityInstance<Activity>> instances = activityService.getInstances(activity.getId());
+            List<ActivityInstance> instances = activityService.getInstances(activity.getId());
 
             Map<Long, ActivityAnalyticsDto> data = new HashMap<>();
-            for(ActivityInstance<Activity> instance : instances) {
+            for(ActivityInstance instance : instances) {
                 for(Deliverable deliverable : instance.getDeliverable()) {
                     Long id = Long.parseLong(deliverable.getAuthor().getId());
                     ActivityAnalyticsDto dto = new ActivityAnalyticsDto();

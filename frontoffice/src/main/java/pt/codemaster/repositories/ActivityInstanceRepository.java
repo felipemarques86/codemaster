@@ -6,5 +6,5 @@ import pt.codemaster.adt.ActivityInstance;
 import pt.codemaster.adt.activity.Activity;
 
 @Repository
-public interface ActivityInstanceRepository extends JpaRepository<ActivityInstance<Activity>, Long> {
+public interface ActivityInstanceRepository extends JpaRepository<ActivityInstance, Long> {
 }

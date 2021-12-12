@@ -7,7 +7,7 @@ import pt.codemaster.repositories.DeliverableRepository;
 import java.util.List;
 
 public interface ActivityService {
-    ActivityInstance<Activity> getInstance(Long id);
+    ActivityInstance getInstance(Long id);
     Activity saveActivity(Activity activity);
     Activity getActivity(Long id);
     ActivityInstance createInstance(Long id, String userId, Activity activity);
@@ -17,5 +17,5 @@ public interface ActivityService {
     Code addComment(Long codeId, String userId, Long line, Comment comment);
     Comment replyComment(String userId, Long commentId, Comment comment);
     Deliverable submit(Deliverable deliverable);
-    List<ActivityInstance<Activity>> getInstances(Long id);
+    List<ActivityInstance> getInstances(Long id);
 }

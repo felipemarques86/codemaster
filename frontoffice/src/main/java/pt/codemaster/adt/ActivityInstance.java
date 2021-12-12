@@ -8,21 +8,21 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class ActivityInstance<A extends Activity> {
+public class ActivityInstance {
     @Id
     @GeneratedValue
     private Long id;
     private Date startDate;
     private Date endDate;
-    @ManyToOne(targetEntity = Activity.class)
-    private A activity;
+    @ManyToOne
+    private Activity activity;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Deliverable> deliverable = new ArrayList<>();
 
     public ActivityInstance() {
     }
 
-    public ActivityInstance(A activity) {
+    public ActivityInstance(Activity activity) {
         this.activity = activity;
     }
 
@@ -50,7 +50,7 @@ public class ActivityInstance<A extends Activity> {
         this.endDate = endDate;
     }
 
-    public A getActivity() {
+    public Activity getActivity() {
         return activity;
     }
 
@@ -62,7 +62,7 @@ public class ActivityInstance<A extends Activity> {
         this.deliverable = deliverable;
     }
 
-    public void setActivity(A activity) {
+    public void setActivity(Activity activity) {
         this.activity = activity;
     }
 }

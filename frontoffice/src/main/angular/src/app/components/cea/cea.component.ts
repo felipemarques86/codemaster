@@ -14,7 +14,7 @@ import {LineHandle, Position} from "codemirror";
 })
 export class CeaComponent implements OnInit {
 
-  public activityInstance!: ActivityInstance<Activity>;
+  public activityInstance!: ActivityInstance;
   public deliverable!: Deliverable;
   public passedTests: ActivityUnitTest[] = [];
   public failedTests: any[] = [];

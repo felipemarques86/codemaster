@@ -38,7 +38,7 @@ public class ActivityServiceImpl implements ActivityService {
     private DeliverableRepository deliverableRepository;
 
     @Override
-    public ActivityInstance<Activity> getInstance(Long id) {
+    public ActivityInstance getInstance(Long id) {
         return activityInstanceRepository.findById(id).orElse(null);
     }
 
@@ -126,7 +126,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityInstance<Activity>> getInstances(Long id) {
+    public List<ActivityInstance> getInstances(Long id) {
         return activityInstanceRepository.findAll()
                 .stream()
                 .filter( activityInstance -> activityInstance.getActivity().getId().equals(id))
@@ -138,21 +138,21 @@ public class ActivityServiceImpl implements ActivityService {
         return codeRepository.findById(id).orElse(null);
     }
 
-    private ActivityInstance<Activity> getAvailableInstance(Activity activity, String userId) {
-        Optional<ActivityInstance<Activity>> any = activityInstanceRepository.findAll()
+    private ActivityInstance getAvailableInstance(Activity activity, String userId) {
+        Optional<ActivityInstance> any = activityInstanceRepository.findAll()
                 .stream()
                 .filter(i -> i.getActivity().getId() == activity.getId() && i.getDeliverable()
                         .stream()
                         .anyMatch(d -> d.getAuthor() == null || d.getAuthor().getId().equals(userId)))
                 .findAny();
 
-        ActivityInstance<Activity> instance = null;
+        ActivityInstance instance = null;
 
         if(!any.isEmpty()){
             instance = any.get();
             logger.info("Instance found with ID = " +  instance.getId());
         } else {
-            instance = new ActivityInstance<>();
+            instance = new ActivityInstance();
             instance.setActivity(activity);
             instance.setStartDate(new Date());
             List<Deliverable> deliverables = new ArrayList<>();

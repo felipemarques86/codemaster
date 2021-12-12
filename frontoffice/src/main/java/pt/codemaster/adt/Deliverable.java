@@ -28,7 +28,7 @@ public class Deliverable {
     private Date submissionDate;
     @ManyToOne
     @JsonIgnore
-    private ActivityInstance<Activity> activityInstance;
+    private ActivityInstance activityInstance;
 
     public Deliverable(Solution solution) {
         this.solution = solution;
@@ -110,11 +110,11 @@ public class Deliverable {
         this.submissionDate = submissionDate;
     }
 
-    public ActivityInstance<Activity> getActivityInstance() {
+    public ActivityInstance getActivityInstance() {
         return activityInstance;
     }
 
-    public void setActivityInstance(ActivityInstance<Activity> activityInstance) {
+    public void setActivityInstance(ActivityInstance activityInstance) {
         this.activityInstance = activityInstance;
     }
 }
