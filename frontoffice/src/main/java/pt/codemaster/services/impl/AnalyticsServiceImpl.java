@@ -39,7 +39,9 @@ public class AnalyticsServiceImpl implements IAnalyticsService {
     public List<ActivityAnalytics> getAnalytics(Activity activity) {
         return activityAnalyticsRepository.findAll()
                 .stream()
-                .filter( a -> a.getDeliverable().getActivityInstance().getActivity().getId().equals(activity.getId()))
+                .filter( a -> a.getDeliverable() != null && a.getDeliverable().getActivityInstance() != null &&
+                        a.getDeliverable().getActivityInstance().getActivity() != null &&
+                        a.getDeliverable().getActivityInstance().getActivity().getId().equals(activity.getId()))
                 .collect(Collectors.toList());
     }
 }
