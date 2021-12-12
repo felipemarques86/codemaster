@@ -211,5 +211,17 @@ public class ApiRest {
         return activityService.submit(deliverable);
     }
 
+    @GetMapping(value = "/config-sample.json", produces = APPLICATION_JSON)
+    @ResponseBody
+    public String configSample() {
+        return "{\n" +
+                "\t\"name\":\"\",\n" +
+                "\t\"description\":\"\",\n" +
+                "\t\"activityUnitTestList\":[],\n" +
+                "\t\"solution\":[],\n" +
+                "\t\"bibliographicReferenceList\":[]\n" +
+                "}";
+    }
+
 
 }
