@@ -1,1 +1,1 @@
-web: java -jar frontoffice/target/frontoffice-1.0.0.jar -Dspring.profiles.active=prod
+web: java -jar frontoffice/target/frontoffice-1.0.0.jar
