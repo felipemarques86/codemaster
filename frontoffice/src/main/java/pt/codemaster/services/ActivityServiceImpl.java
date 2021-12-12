@@ -118,19 +118,6 @@ public class ActivityServiceImpl implements ActivityService {
             deliverable.setSubmitted(true);
             deliverable.setSubmissionDate(new Date());
             deliverable = deliverableRepository.save(deliverable);
-            ActivityInstance activityInstance = deliverable.getActivityInstance();
-
-            boolean allSubmitted = activityInstance.getDeliverable()
-                    .stream()
-                    .map( d -> d.isSubmitted())
-                    .reduce((s1, s2) -> s1 && s2)
-                    .orElse(false);
-
-            if(allSubmitted) {
-                activityInstance.setEndDate(new Date());
-                activityInstanceRepository.save(activityInstance);
-            }
-
             return deliverable;
 
         }
