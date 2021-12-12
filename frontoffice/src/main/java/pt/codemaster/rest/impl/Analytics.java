@@ -52,6 +52,8 @@ public class Analytics implements IAnalyticsExternalProvider, IAnalyticsRecorder
             Map<Long, ActivityAnalyticsDto> data = new HashMap<>();
             for(ActivityInstance instance : instances) {
                 for(Deliverable deliverable : instance.getDeliverable()) {
+                    if(deliverable.getAuthor() == null)
+                        continue;
                     Long id = Long.parseLong(deliverable.getAuthor().getId());
                     ActivityAnalyticsDto dto = new ActivityAnalyticsDto();
                     dto.setInveniraStdID(deliverable.getAuthor().getId());
