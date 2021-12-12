@@ -13,12 +13,12 @@ export class AnalyticsService implements ITestAnalytics, ICodeEditingEvents{
   constructor(private http: HttpClient) { }
 
   updatePassedTests(deliverable: Deliverable, passedTests: any[]) {
-    this.http.post(`${environment.base}/analytics/deliverable/${deliverable.id}`, {name: 'Passed Tests', value: passedTests.length + '' })
+    this.http.post(`${environment.base}/v1/api/analytics/deliverable/${deliverable.id}`, {name: 'Passed Tests', value: passedTests.length + '' })
       .subscribe(_=> {}, error => console.error(error));
   }
 
   updateFailedTests(deliverable: Deliverable, failedTests: any[]) {
-    this.http.post(`${environment.base}/analytics/deliverable/${deliverable.id}`, {name: 'Failed Tests', value: failedTests.length + '' })
+    this.http.post(`${environment.base}/v1/api/analytics/deliverable/${deliverable.id}`, {name: 'Failed Tests', value: failedTests.length + '' })
       .subscribe(_=> {}, error => console.error(error));
   }
 }
