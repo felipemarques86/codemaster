@@ -51,13 +51,18 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public ActivityInstance createInstance(Long id, Long userId) {
+    public ActivityInstance createInstance(Long id, String userId, Activity act) {
         Optional<Activity> activityOptional = activityDefinitionRepository.findById(id);
         if(activityOptional.isPresent()) {
             Activity activity = activityOptional.get();
-            return getAvailableInstance(activity, userId);
+            act.setId(activity.getId());
+            activityDefinitionRepository.save(act);
+            return getAvailableInstance(act, userId);
+        } else {
+            act.setId(id);
+            act = activityDefinitionRepository.save(act);
+            return getAvailableInstance(act, userId);
         }
-        return null;
     }
 
     @Override
@@ -71,7 +76,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public Code addComment(Long codeId, Long userId, Long line, Comment comment) {
+    public Code addComment(Long codeId, String userId, Long line, Comment comment) {
 
         Optional<Code> codeOptional = codeRepository.findById(codeId);
 
@@ -88,7 +93,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public Comment replyComment(Long userId, Long commentId, Comment comment) {
+    public Comment replyComment(String userId, Long commentId, Comment comment) {
 
         Optional<Comment> commentOptional = commentRepository.findById(commentId);
 
@@ -108,12 +113,12 @@ public class ActivityServiceImpl implements ActivityService {
         return codeRepository.findById(id).orElse(null);
     }
 
-    private ActivityInstance<Activity> getAvailableInstance(Activity activity, Long userId) {
+    private ActivityInstance<Activity> getAvailableInstance(Activity activity, String userId) {
         Optional<ActivityInstance<Activity>> any = activityInstanceRepository.findAll()
                 .stream()
                 .filter(i -> i.getActivity().getId() == activity.getId() && i.getDeliverable()
                         .stream()
-                        .anyMatch(d -> d.getAuthor() == null || d.getAuthor().getId() == userId))
+                        .anyMatch(d -> d.getAuthor() == null || d.getAuthor().getId().equals(userId)))
                 .findAny();
 
         ActivityInstance<Activity> instance = null;
@@ -131,7 +136,6 @@ public class ActivityServiceImpl implements ActivityService {
                 Code code = solution.getCode();
                 Code emptyCode = new Code();
                 emptyCode.setLanguage(code.getLanguage());
-                emptyCode.setScore(code.getScore());
                 deliverable.setCode(emptyCode);
                 deliverable.setSolution(solution);
                 deliverables.add(deliverable);
@@ -156,7 +160,7 @@ public class ActivityServiceImpl implements ActivityService {
         return instance;
     }
 
-    private EndUser getOrCreateUser(Long userId) {
+    private EndUser getOrCreateUser(String userId) {
         Optional<EndUser> optionalEndUser = endUserRepository.findById(userId);
         if(optionalEndUser.isEmpty()) {
             EndUser endUser = new EndUser();

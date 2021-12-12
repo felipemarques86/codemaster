@@ -20,7 +20,6 @@ public class Code {
     private String code;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
-    private double score;
 
     public Code(LanguageEnum language, String code) {
         this.language = language;
@@ -53,14 +52,6 @@ public class Code {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
     }
 
     public List<Comment> getCommentList() {

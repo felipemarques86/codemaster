@@ -6,10 +6,10 @@ import javax.persistence.Id;
 @Entity
 public class EndUser {
     @Id
-    private Long id;
+    private String id;
     private String name;
 
-    public EndUser(Long id) {
+    public EndUser(String id) {
         this.id = id;
     }
 
@@ -25,11 +25,11 @@ public class EndUser {
         this.name = name;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

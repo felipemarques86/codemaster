@@ -32,7 +32,7 @@ export class CeaComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     const userId = this.route.snapshot.paramMap.get('userId');
     if(id && userId) {
-      this.activityService.getActivityInstance(+id, +userId).subscribe(instance => {
+      this.activityService.getActivityInstance(+id).subscribe(instance => {
         if(!instance) {
           alert("Esta atividade não está disponível.");
           return;

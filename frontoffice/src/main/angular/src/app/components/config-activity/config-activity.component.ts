@@ -35,49 +35,31 @@ export class ConfigActivityComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    const id = this.route.snapshot.paramMap.get('id');
-
-    if (id) {
-      this.activityService.getActivity(+id).subscribe(act => {
-        this.activity = act;
-        this.patchValues();
-      });
-    }
+      this.activity = this.activityService.getActivity();
+      this.patchValues();
   }
 
   saveActivity() {
     this.mergeValues();
+    console.log(JSON.stringify(this.activityService.getActivity()));
   }
 
   private mergeValues() {
 
-    if (!this.activity) {
-      this.activity = {
+    this.activity = {
         name: this.name.value,
-        id: this.id,
         activityUnitTestList: this.activityTests,
         description: this.description.value,
         solution: this.solutions,
         bibliographicReferenceList: this.bibliographicReferenceList
-      };
     }
 
-    this.activityService.saveActivity(this.activity).subscribe((act: Activity) => {
-      this.activity = act;
-      console.log('Activity saved:', this.activity);
-      this.patchValues();
-
-    }, error => {
-      console.error(error);
-      alert("Error ao guardar a configuração da atividade");
-    });
+    this.activityService.saveActivity(this.activity);
   }
 
   private patchValues() {
     this.name.setValue(this.activity.name);
     this.description.setValue(this.activity.description);
-    this.id = this.activity.id;
     this.activityTests = this.activity.activityUnitTestList;
     this.solutions = this.activity.solution;
     this.bibliographicReferenceList = this.activity.bibliographicReferenceList;
@@ -86,10 +68,8 @@ export class ConfigActivityComponent implements OnInit {
   addSolution() {
 
     const solution: Solution = {
-      id: undefined,
       testsToPass: [],
-      checkOutput: false,
-      code: {code: '', commentList: [], score: 0, language: LanguageEnum.JAVASCRIPT}
+      code: {code: '', commentList: [], language: LanguageEnum.JAVASCRIPT}
     };
 
     this.solutions.push(solution);
@@ -100,17 +80,18 @@ export class ConfigActivityComponent implements OnInit {
   }
 
   nextStep() {
+    this.saveActivity();
     this.step = this.step > 3 ? 4: this.step + 1;
   }
 
   previousStep() {
+    this.saveActivity();
     this.step = this.step > 1 ? this.step - 1 : 1;
   }
 
   addSolutionTest() {
     const test: ActivityUnitTest = {
-      id: undefined,
-      code: {code: '', id: undefined, language: LanguageEnum.JAVASCRIPT, score: 0, commentList: []},
+      code: {code: '', language: LanguageEnum.JAVASCRIPT, commentList: []},
       expectedResult: '',
       score: 0,
       performance: false,
@@ -129,7 +110,7 @@ export class ConfigActivityComponent implements OnInit {
   addGlobalTest() {
     const test: ActivityUnitTest = {
       id: undefined,
-      code: {code: '', id: undefined, language: LanguageEnum.JAVASCRIPT, score: 0, commentList: []},
+      code: {code: '', language: LanguageEnum.JAVASCRIPT, commentList: []},
       expectedResult: '',
       score: 0,
       performance: false,

@@ -15,7 +15,6 @@ public class Solution {
     private List<ActivityUnitTest> testsToPass = new ArrayList<>();
     @ManyToOne(cascade = CascadeType.ALL)
     private Code code;
-    private boolean checkOutput;
 
     public Solution() {
     }
@@ -54,13 +53,5 @@ public class Solution {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public boolean isCheckOutput() {
-        return checkOutput;
-    }
-
-    public void setCheckOutput(boolean checkOutput) {
-        this.checkOutput = checkOutput;
     }
 }

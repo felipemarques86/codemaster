@@ -12,24 +12,38 @@ export class ActivityService {
   constructor(private http: HttpClient) {
   }
 
-  getActivityInstance(id: number, userId: number): Observable<ActivityInstance<any>> {
+  getActivityInstance(id: number): Observable<ActivityInstance<any>> {
+    return this.http.get<ActivityInstance<any>>(
+      `http://localhost/v1/api/cea/${id}`
+    );
+  }
+
+   createInstance(id: number, userId: number): Observable<ActivityInstance<any>> {
     return this.http.get<ActivityInstance<any>>(
       `http://localhost/v1/api/cea/${id}/${userId}`
     );
   }
 
   saveActivity(activity: Activity) {
-    return this.http.post<Activity>(
-      `http://localhost/v1/api/activity/`,
-      activity
-    );
+    const w:any = window;
+    w.activityName = activity.name;
+    w.activityUnitTestList = activity.activityUnitTestList;
+    w.description = activity.description;
+    w.solutions = activity.solution;
+    w.bibliographicReferenceList = activity.bibliographicReferenceList;
   }
 
 
-  getActivity(id: number): Observable<Activity> {
-    return this.http.get<Activity>(
-      `http://localhost/v1/api/activity/${id}/`
-    );
+  getActivity(): Activity {
+    const w:any = window;
+    const activity: Activity = {
+      name: w.activityName ? w.activityName : null,
+      activityUnitTestList: w.activityUnitTestList ? w.activityUnitTestList : [],
+      description: w.description ? w.description : null,
+      solution: w.solutions ? w.solutions : [],
+      bibliographicReferenceList: w.bibliographicReferenceList ? w.bibliographicReferenceList : []
+    }
+   return activity;
   }
 
   addComment(code: Code, comment: Comment, line: number, userId: number) {

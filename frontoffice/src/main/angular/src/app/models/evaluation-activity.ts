@@ -1,5 +1,5 @@
 export interface Activity {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   activityUnitTestList: ActivityUnitTest[];
@@ -11,14 +11,11 @@ export interface  Solution {
   id?: number;
   testsToPass: ActivityUnitTest[];
   code: Code;
-  checkOutput: boolean;
 }
 
 export enum LanguageEnum {
   JAVASCRIPT= <any>'JAVASCRIPT',  HTML = <any>'HTML'
 }
-
-
 
 export interface Comment {
   id?: number;
@@ -38,7 +35,6 @@ export interface Code {
   language: LanguageEnum;
   code: string;
   commentList: Comment[];
-  score: number;
   author?: EndUser;
 }
 

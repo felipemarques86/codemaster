@@ -10,10 +10,10 @@ public interface ActivityService {
     ActivityInstance<Activity> getInstance(Long id);
     Activity saveActivity(Activity activity);
     Activity getActivity(Long id);
-    ActivityInstance createInstance(Long id, Long userId);
+    ActivityInstance createInstance(Long id, String userId, Activity activity);
     Code getCode(Long id);
     Code saveCode(Code code);
     EndUser saveEndUser(EndUser endUser);
-    Code addComment(Long codeId, Long userId, Long line, Comment comment);
-    Comment replyComment(Long userId, Long commentId, Comment comment);
+    Code addComment(Long codeId, String userId, Long line, Comment comment);
+    Comment replyComment(String userId, Long commentId, Comment comment);
 }

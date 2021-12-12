@@ -12,6 +12,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import 'codemirror/mode/javascript/javascript';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { CodeeditorComponent } from './components/codeeditor/codeeditor.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { TestConfigActivityComponent } from './components/test-config-activity/test-config-activity.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { CodeeditorComponent } from './components/codeeditor/codeeditor.componen
     ConfigActivityComponent,
     AnalyticsActivityComponent,
     CeaComponent,
-    CodeeditorComponent
+    CodeeditorComponent,
+    PageNotFoundComponent,
+    TestConfigActivityComponent
   ],
   imports: [
     BrowserModule,

@@ -19,12 +19,12 @@
         <h2>Passo 1 de 4</h2>
         <div class="form-group">
           <label>Nome da Atividade</label>
-          <input [formControl]="name" type="text" class="form-control" placeholder="Escreva aqui o nome da atividade">
+          <input [formControl]="name" type="text" class="form-control" placeholder="Escreva aqui o nome da atividade" name="name">
           <small class="form-text text-muted">Nome da atividade de avaliação colaborativa.</small>
         </div>
         <div class="form-group">
           <label>Descrição</label>
-          <textarea [formControl]="description" type="text" class="form-control">
+          <textarea [formControl]="description" type="text" class="form-control" name="description">
 
         </textarea>
           <small class="form-text text-muted">Descreva o problema a ser resolvido pelos utilizadores. Defina com o

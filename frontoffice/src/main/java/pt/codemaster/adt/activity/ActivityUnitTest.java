@@ -11,7 +11,6 @@ public class ActivityUnitTest {
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL)
     private Code code;
-    private String expectedResult;
     private boolean performance;
     private double score;
 
@@ -24,14 +23,6 @@ public class ActivityUnitTest {
 
     public void setCode(Code code) {
         this.code = code;
-    }
-
-    public String getExpectedResult() {
-        return expectedResult;
-    }
-
-    public void setExpectedResult(String expectedResult) {
-        this.expectedResult = expectedResult;
     }
 
     public boolean isPerformance() {

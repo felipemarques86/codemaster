@@ -9,7 +9,6 @@ import java.util.List;
 @Entity
 public class Activity {
     @Id
-    @GeneratedValue
     private Long id;
     private String name;
     private String description;
@@ -19,7 +18,6 @@ public class Activity {
     private List<Solution> solution = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
     private List<ActivityUnitTest> activityUnitTestList = new ArrayList<>();
-    private double score;
 
     public Long getId() {
         return id;
@@ -61,14 +59,6 @@ public class Activity {
         this.solution = solution;
     }
 
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
     public List<ActivityUnitTest> getActivityUnitTestList() {
         return activityUnitTestList;
     }
@@ -86,7 +76,6 @@ public class Activity {
                 ", referenceSet=" + bibliographicReferenceList +
                 ", solution=" + solution +
                 ", activityUnitTestList=" + activityUnitTestList +
-                ", score=" + score +
                 '}';
     }
 }
