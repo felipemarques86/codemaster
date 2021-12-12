@@ -10,6 +10,7 @@ import {
 import {FormControl} from "@angular/forms";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ActivatedRoute} from "@angular/router";
+import {ActivityConfigurationService} from "../../services/activity-configuration.service";
 
 @Component({
   selector: 'app-config-activity',
@@ -32,7 +33,7 @@ export class ConfigActivityComponent implements OnInit {
   error: any = null;
   ASSERT_FUNC = "function assert(cond){ try{ if(!eval(cond)) { throw 'Assertion ' + cond + ' is FALSE'} } catch(e) { throw e; } }";
 
-  constructor(private activityService: ActivityService, private modalService: NgbModal, private route: ActivatedRoute) {
+  constructor(private activityService: ActivityConfigurationService, private modalService: NgbModal, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {

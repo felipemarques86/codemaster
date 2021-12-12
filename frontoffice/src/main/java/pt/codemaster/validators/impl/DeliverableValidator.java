@@ -29,7 +29,6 @@ public class DeliverableValidator extends BaseValidator implements EntityValidat
         List<ValidationError> errors = new ArrayList<>();
         validateNotNull(entity.getAuthor(), "author", "O Autor do código-fonte é obrigatório", errors);
         errors.addAll(CodeValidator.getInstance().validate(entity.getCode()));
-        errors.addAll(SolutionValidator.getInstance().validate(entity.getSolution()));
         return errors;
     }
 }

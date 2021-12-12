@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pt.codemaster.adt.activity.Activity;
-import pt.codemaster.rest.IActivityDefinitions;
+import pt.codemaster.rest.IActivityDefinitionProvider;
 import pt.codemaster.services.IActivityDefinitionService;
 import pt.codemaster.validators.adt.ValidationError;
 import pt.codemaster.validators.impl.ActivityValidator;
@@ -15,7 +15,7 @@ import java.util.List;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @RestController
-public class ActivityDefinitions implements IActivityDefinitions {
+public class ActivityDefinitions implements IActivityDefinitionProvider {
 
     @Autowired
     private IActivityDefinitionService activityDefinitionService;

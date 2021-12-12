@@ -14,4 +14,5 @@ public interface IActivityService {
     Comment replyComment(String userId, Long commentId, Comment comment);
     Deliverable submit(Deliverable deliverable);
     List<ActivityInstance> getInstances(Long id);
+    Deliverable getDeliverable(Long deliverableId);
 }

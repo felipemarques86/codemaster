@@ -14,6 +14,7 @@ import pt.codemaster.adt.analytics.ActivityAnalyticsDto;
 import pt.codemaster.adt.analytics.AnalyticsNameValuePair;
 import pt.codemaster.adt.analytics.AnalyticsRequest;
 import pt.codemaster.rest.IAnalyticsExternalProvider;
+import pt.codemaster.rest.IAnalyticsRecorder;
 import pt.codemaster.services.IActivityDefinitionService;
 import pt.codemaster.services.IActivityService;
 import pt.codemaster.services.IAnalyticsService;
@@ -29,7 +30,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @RestController
 @CrossOrigin
-public class Analytics implements IAnalyticsExternalProvider {
+public class Analytics implements IAnalyticsExternalProvider, IAnalyticsRecorder {
 
     @Autowired
     private IActivityService activityService;
@@ -105,6 +106,13 @@ public class Analytics implements IAnalyticsExternalProvider {
             return data.values();
         }
         return null;
+    }
+
+
+
+    @PostMapping(value = "/analytics/activity/{activityId}/user/{userId}", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
+    public ActivityAnalytics save(String name, String value, Long deliverableId) {
+        return analyticsService.save(name, value, activityService.getDeliverable(deliverableId));
     }
 
 }

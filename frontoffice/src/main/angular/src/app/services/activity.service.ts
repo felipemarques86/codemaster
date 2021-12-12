@@ -4,11 +4,13 @@ import {Observable} from "rxjs";
 import {ActivityInstance, Deliverable} from "../models/activity-instance";
 import {Activity, Code, Comment, EndUser} from "../models/evaluation-activity";
 import {environment} from "../../environments/environment";
+import {ICommentOperations} from "../models/i-comment-operations";
+import {IActivitiyOperations} from "../models/iactivitiy-operations";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ActivityService {
+export class ActivityService implements ICommentOperations, IActivitiyOperations{
 
   constructor(private http: HttpClient) {
   }
@@ -19,54 +21,24 @@ export class ActivityService {
     );
   }
 
-   createInstance(id: number, userId: number): Observable<ActivityInstance> {
+  createInstance(id: number, userId: number): Observable<ActivityInstance> {
     return this.http.get<ActivityInstance>(
       `${environment.base}/v1/api/cea/${id}/${userId}`
     );
   }
 
-  saveActivity(activity: Activity) {
-    const w:any = window;
-    w.activityName = activity.name;
-    w.activityUnitTestList = activity.activityUnitTestList;
-    w.description = activity.description;
-    w.solutions = activity.solution;
-    w.bibliographicReferenceList = activity.bibliographicReferenceList;
-  }
-
-
-  getActivity(): Activity {
-    const w:any = window;
-    const activity: Activity = {
-      name: w.activityName ? w.activityName : null,
-      activityUnitTestList: w.activityUnitTestList ? w.activityUnitTestList : [],
-      description: w.description ? w.description : null,
-      solution: w.solutions ? w.solutions : [],
-      bibliographicReferenceList: w.bibliographicReferenceList ? w.bibliographicReferenceList : []
-    }
-   return activity;
-  }
-
-  validate(activity: Activity) {
-    return this.http.post<Activity>(
-      `${environment.base}/v1/api/activity/validate`,
-      activity
-    );
-  }
-
-  addComment(code: Code, comment: Comment, line: number, userId: number) {
+  addComment(code: Code, comment: Comment, line: number, userId: number): Observable<Code> {
     return this.http.post<Code>(
       `${environment.base}/v1/api/code/${code.id}/user/${userId}/comment/${line}`,
       comment
     );
   }
 
-  replyComment(comment: Comment, commentText: string, currentUser: EndUser) : Observable<Comment> {
+  replyComment(comment: Comment, commentText: string, currentUser: EndUser): Observable<Comment> {
     return this.http.post<Comment>(
       `${environment.base}/v1/api/comment/${comment.id}/user/${currentUser.id}/reply`,
       {content: commentText}
     );
-
   }
 
   submit(deliverable: Deliverable) : Observable<Deliverable> {

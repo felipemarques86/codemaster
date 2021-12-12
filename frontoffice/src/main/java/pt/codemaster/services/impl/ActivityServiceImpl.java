@@ -131,6 +131,11 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
     }
 
     @Override
+    public Deliverable getDeliverable(Long deliverableId) {
+        return this.deliverableRepository.findById(deliverableId).orElse(null);
+    }
+
+    @Override
     public Code getCode(Long id) {
         return codeRepository.findById(id).orElse(null);
     }
