@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Activity, Code} from "../models/evaluation-activity";
+import {Code} from "../models/evaluation-activity";
 import {environment} from "../../environments/environment";
 
 @Injectable({
