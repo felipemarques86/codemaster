@@ -25,7 +25,7 @@ public class Deliverable {
     private boolean submitted;
     private boolean readOnly;
     private Date submissionDate;
-    @ManyToOne
+    @ManyToOne()
     @JsonIgnore
     private ActivityInstance activityInstance;
 

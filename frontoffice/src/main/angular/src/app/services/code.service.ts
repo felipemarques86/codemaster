@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Activity, Code} from "../models/evaluation-activity";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class CodeService {
 
   saveCode(code: Code) {
     return this.http.post<Code>(
-      `http://localhost/v1/api/code/`,
+      `${environment.base}v1/api/code/`,
       code
     );
   }

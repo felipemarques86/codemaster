@@ -14,6 +14,14 @@
 
 <div class="row">
   <div class="col">
+    <div class="alert alert-danger" *ngIf="error">
+      <ul>
+        <li *ngFor="let e of error.error ">
+          {{e.error}}
+        </li>
+      </ul>
+
+    </div>
     <form>
       <div id="step1" *ngIf="step === 1">
         <h2>Passo 1 de 4</h2>
@@ -236,7 +244,7 @@
       <br/><br/><br/>
       <button type="submit" class="btn btn-primary" [disabled]="step == 1" (click)="previousStep()">Anterior</button>&nbsp;&nbsp;
       <button type="submit" class="btn btn-primary" [disabled]="step == 4" (click)="nextStep()">Seguinte</button>&nbsp;&nbsp;
-      <button type="submit" class="btn btn-primary" (click)="saveActivity()">Guardar</button>
+      <button type="submit" class="btn btn-primary" (click)="validateEntity()">Validar</button>
       <br/><br/><br/>
     </form>
   </div>

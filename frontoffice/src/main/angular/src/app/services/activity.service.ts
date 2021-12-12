@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ActivityInstance, Deliverable} from "../models/activity-instance";
 import {Activity, Code, Comment, EndUser} from "../models/evaluation-activity";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,13 @@ export class ActivityService {
 
   getActivityInstance(id: number): Observable<ActivityInstance> {
     return this.http.get<ActivityInstance>(
-      `http://localhost/v1/api/cea/${id}`
+      `${environment.base}/v1/api/cea/${id}`
     );
   }
 
    createInstance(id: number, userId: number): Observable<ActivityInstance> {
     return this.http.get<ActivityInstance>(
-      `http://localhost/v1/api/cea/${id}/${userId}`
+      `${environment.base}/v1/api/cea/${id}/${userId}`
     );
   }
 
@@ -46,16 +47,23 @@ export class ActivityService {
    return activity;
   }
 
+  validate(activity: Activity) {
+    return this.http.post<Activity>(
+      `${environment.base}/v1/api/activity/validate`,
+      activity
+    );
+  }
+
   addComment(code: Code, comment: Comment, line: number, userId: number) {
     return this.http.post<Code>(
-      `http://localhost/v1/api/code/${code.id}/user/${userId}/comment/${line}`,
+      `${environment.base}/v1/api/code/${code.id}/user/${userId}/comment/${line}`,
       comment
     );
   }
 
   replyComment(comment: Comment, commentText: string, currentUser: EndUser) : Observable<Comment> {
     return this.http.post<Comment>(
-      `http://localhost/v1/api/comment/${comment.id}/user/${currentUser.id}/reply`,
+      `${environment.base}/v1/api/comment/${comment.id}/user/${currentUser.id}/reply`,
       {content: commentText}
     );
 
@@ -63,7 +71,7 @@ export class ActivityService {
 
   submit(deliverable: Deliverable) : Observable<Deliverable> {
     return this.http.post<Deliverable>(
-      `http://localhost/v1/api/deliverable/submit`,
+      `${environment.base}/v1/api/deliverable/submit`,
       deliverable
     );
   }

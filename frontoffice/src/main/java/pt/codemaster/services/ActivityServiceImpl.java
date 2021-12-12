@@ -45,7 +45,6 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public Activity saveActivity(Activity activity){
-        logger.info(activity.toString());
         return activityDefinitionRepository.save(activity);
     }
 
@@ -118,8 +117,22 @@ public class ActivityServiceImpl implements ActivityService {
         if( deliverable != null) {
             deliverable.setSubmitted(true);
             deliverable.setSubmissionDate(new Date());
+            deliverable = deliverableRepository.save(deliverable);
+            ActivityInstance activityInstance = deliverable.getActivityInstance();
 
-            return deliverableRepository.save(deliverable);
+            boolean allSubmitted = activityInstance.getDeliverable()
+                    .stream()
+                    .map( d -> d.isSubmitted())
+                    .reduce((s1, s2) -> s1 && s2)
+                    .orElse(false);
+
+            if(allSubmitted) {
+                activityInstance.setEndDate(new Date());
+                activityInstanceRepository.save(activityInstance);
+            }
+
+            return deliverable;
+
         }
 
         return null;

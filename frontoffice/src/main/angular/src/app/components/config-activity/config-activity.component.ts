@@ -29,6 +29,7 @@ export class ConfigActivityComponent implements OnInit {
   activityTests: ActivityUnitTest[] = [];
   nameBr = new FormControl('');
   urlBr = new FormControl('');
+  error: any = null;
   ASSERT_FUNC = "function assert(cond){ try{ if(!eval(cond)) { throw 'Assertion ' + cond + ' is FALSE'} } catch(e) { throw e; } }";
 
   constructor(private activityService: ActivityService, private modalService: NgbModal, private route: ActivatedRoute) {
@@ -184,5 +185,16 @@ export class ConfigActivityComponent implements OnInit {
       tests.push(this.activityTests);
     }
     return tests;
+  }
+
+  validateEntity() {
+
+    this.activityService.saveActivity(this.activity);
+
+    this.activityService.validate(this.activity).subscribe( activity => {
+      this.error = null;
+    }, error => {
+      this.error = error  && error.error && Array.isArray(error.error) ? error : null;
+    });
   }
 }

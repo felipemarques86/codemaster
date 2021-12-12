@@ -2,18 +2,27 @@ package pt.codemaster.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import pt.codemaster.adt.*;
 import pt.codemaster.adt.activity.Activity;
-import pt.codemaster.adt.analytics.ActivityAnalytics;
 import pt.codemaster.adt.activity.ActivityDeployRequest;
+import pt.codemaster.adt.analytics.ActivityAnalytics;
 import pt.codemaster.adt.analytics.ActivityAnalyticsDto;
 import pt.codemaster.adt.analytics.AnalyticsNameValuePair;
 import pt.codemaster.adt.analytics.AnalyticsRequest;
+import pt.codemaster.validators.ActivityValidator;
+import pt.codemaster.validators.CodeValidator;
+import pt.codemaster.validators.DeliverableValidator;
+import pt.codemaster.validators.ValidationError;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,13 +40,30 @@ public class ApiRest {
 
 
     @PostMapping(value="/activity", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
-    public Activity saveActivity(@RequestBody Activity activity) {
-        return activityService.saveActivity(activity);
+    public ResponseEntity<Activity> saveActivity(@RequestBody Activity activity) {
+        List<ValidationError> errors = ActivityValidator.getInstance().validate(activity);
+        if(!errors.isEmpty()) {
+            return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(activityService.saveActivity(activity));
+    }
+
+    @PostMapping(value="/activity/validate", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
+    public ResponseEntity<Activity> validateActivity(@RequestBody Activity activity) {
+        List<ValidationError> errors = ActivityValidator.getInstance().validate(activity);
+        if(!errors.isEmpty()) {
+            return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(activity);
     }
 
     @PostMapping(value="/code", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
-    public Code updateCode(@RequestBody Code code) {
-        return activityService.saveCode(code);
+    public ResponseEntity<Code> updateCode(@RequestBody Code code) {
+        List<ValidationError> errors = CodeValidator.getInstance().validate(code);
+        if(!errors.isEmpty()) {
+            return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
+        }
+        return  ResponseEntity.ok(activityService.saveCode(code));
     }
 
     @PostMapping(value="/code/{codeId}/user/{userId}/comment/{line}", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
@@ -155,8 +181,12 @@ public class ApiRest {
     }
 
     @PostMapping(value = "/deliverable/submit", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
-    public Deliverable submit(@RequestBody Deliverable deliverable) {
-        return activityService.submit(deliverable);
+    public ResponseEntity<Deliverable> submit(@RequestBody Deliverable deliverable) {
+        List<ValidationError> errors = DeliverableValidator.getInstance().validate(deliverable);
+        if(!errors.isEmpty()) {
+            return new ResponseEntity<>(deliverable, HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(activityService.submit(deliverable));
     }
 
     @GetMapping(value = "/config-sample.json", produces = APPLICATION_JSON)
