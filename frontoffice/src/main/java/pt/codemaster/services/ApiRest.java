@@ -77,58 +77,6 @@ public class ApiRest {
         return "pong";
     }
 
-    /*        return "[\n" +
-                "  {\n" +
-                "    \"inveniraStdID\": 1001,\n" +
-                "    \"quantAnalytics\": [\n" +
-                "      {\n" +
-                "        \"name\": \"Acedeu à atividade\",\n" +
-                "        \"value\": true\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"name\": \"Download documento 1\",\n" +
-                "        \"value\": true\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"name\": \"Evolução pela atividade (%)\",\n" +
-                "        \"value\": \"33.3\"\n" +
-                "      }\n" +
-                "    ],\n" +
-                "    \"qualAnalytics\": [\n" +
-                "      {\n" +
-                "        \"Student activity profile\": \"https://ActivityProvider/?APAnID=11111111\"\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"Actitivy Heat Map\": \"https://ActivityProvider/?APAnID=21111111\"\n" +
-                "      }\n" +
-                "    ]\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"inveniraStdID\": 1002,\n" +
-                "    \"quantAnalytics\": [\n" +
-                "      {\n" +
-                "        \"name\": \"Acedeu à atividade\",\n" +
-                "        \"value\": true\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"name\": \"Download documento 1\",\n" +
-                "        \"value\": false\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"name\": \"Evolução pela atividade (%)\",\n" +
-                "        \"value\": \"10.0\"\n" +
-                "      }\n" +
-                "    ],\n" +
-                "    \"qualAnalytics\": [\n" +
-                "      {\n" +
-                "        \"Student activity profile\": \"https://ActivityProvider/?APAnID=11111112\"\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"Actitivy Heat Map\": \"https://ActivityProvider/?APAnID=21111112\"\n" +
-                "      }\n" +
-                "    ]\n" +
-                "  }\n" +
-                "]";*/
     @PostMapping(value = "/analytics.json", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
     public Collection<ActivityAnalyticsDto> analytics(@RequestBody AnalyticsRequest request) {
 

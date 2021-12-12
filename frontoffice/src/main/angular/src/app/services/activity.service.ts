@@ -12,14 +12,14 @@ export class ActivityService {
   constructor(private http: HttpClient) {
   }
 
-  getActivityInstance(id: number): Observable<ActivityInstance<any>> {
-    return this.http.get<ActivityInstance<any>>(
+  getActivityInstance(id: number): Observable<ActivityInstance> {
+    return this.http.get<ActivityInstance>(
       `http://localhost/v1/api/cea/${id}`
     );
   }
 
-   createInstance(id: number, userId: number): Observable<ActivityInstance<any>> {
-    return this.http.get<ActivityInstance<any>>(
+   createInstance(id: number, userId: number): Observable<ActivityInstance> {
+    return this.http.get<ActivityInstance>(
       `http://localhost/v1/api/cea/${id}/${userId}`
     );
   }

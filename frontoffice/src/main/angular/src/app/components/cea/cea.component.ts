@@ -2,10 +2,9 @@ import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/co
 import {ActivityInstance, Deliverable, UnitTestResult} from "../../models/activity-instance";
 import {ActivityService} from "../../services/activity.service";
 import {ActivatedRoute} from "@angular/router";
-import {Activity, ActivityUnitTest, Code, Comment, LanguageEnum} from "../../models/evaluation-activity";
+import {ActivityUnitTest, Code, Comment, LanguageEnum} from "../../models/evaluation-activity";
 import {CodemirrorComponent} from "@ctrl/ngx-codemirror";
 import {EndUserService} from "../../services/end-user.service";
-import {LineHandle, Position} from "codemirror";
 
 @Component({
   selector: 'app-cea',
@@ -148,25 +147,25 @@ export class CeaComponent implements OnInit {
     return this.activityInstance.deliverable.filter( (d: Deliverable) => d.id != this.deliverable.id);
   }
 
-  highlightLine(id?: number) {
-    let comment =  document.getElementById("comment_" + id);
-    if(comment && comment.parentElement) {
-      setTimeout(() => {
-        if(comment && comment.parentElement)
-          comment.parentElement.style.textDecoration = "underline wavy white";
-      }, 50);
-    }
-  }
-
-  removeHighlightLine(id?: number) {
-    let comment =  document.getElementById("comment_" + id);
-    if(comment && comment.parentElement) {
-      setTimeout( () => {
-        if(comment && comment.parentElement)
-          comment.parentElement.style.textDecoration = "none";
-      }, 200);
-    }
-  }
+  // highlightLine(id?: number) {
+  //   let comment =  document.getElementById("comment_" + id);
+  //   if(comment && comment.parentElement) {
+  //     setTimeout(() => {
+  //         // @ts-ignore
+  //       comment.parentElement.style.textDecoration = "underline wavy white";
+  //     }, 50);
+  //   }
+  // }
+  //
+  // removeHighlightLine(id?: number) {
+  //   let comment =  document.getElementById("comment_" + id);
+  //   if(comment && comment.parentElement) {
+  //     setTimeout( () => {
+  //       if(comment && comment.parentElement)
+  //         comment.parentElement.style.textDecoration = "none";
+  //     }, 200);
+  //   }
+  // }
 
   // buildComments(codemirrorComponent: CodemirrorComponent, deliverable: Deliverable): void {
   //   let n = 0;

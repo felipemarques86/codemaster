@@ -1,7 +1,6 @@
 package pt.codemaster.adt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import pt.codemaster.adt.activity.Activity;
 import pt.codemaster.adt.activity.UnitTestResult;
 
 import javax.persistence.*;

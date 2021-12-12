@@ -1,8 +1,8 @@
 import {Activity, ActivityUnitTest, Code, EndUser, Solution} from "./evaluation-activity";
 
 
-export interface ActivityInstance<T extends Activity> {
-  activity: T;
+export interface ActivityInstance {
+  activity: Activity;
   id: number;
   startDate: Date;
   endDate: Date;
