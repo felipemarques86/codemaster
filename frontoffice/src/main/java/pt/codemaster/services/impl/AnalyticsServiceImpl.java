@@ -22,7 +22,7 @@ public class AnalyticsServiceImpl implements IAnalyticsService {
 
         ActivityAnalytics analytics = activityAnalyticsRepository.findAll()
                 .stream()
-                .filter( an -> an.getDeliverable().getId() == deliverable.getId() && an.getName().equals(name))
+                .filter( an -> an.getDeliverable() != null && an.getDeliverable().getId() == deliverable.getId() && an.getName().equals(name))
                 .findFirst()
                 .orElse(null);
 
