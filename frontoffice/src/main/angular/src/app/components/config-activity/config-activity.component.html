@@ -9,7 +9,6 @@
       <hr class="my-4">
       <p>Siga os passos do wizard para configurar a atividade.</p>
     </div>
-
   </div>
 </div>
 
@@ -17,6 +16,7 @@
   <div class="col">
     <form>
       <div id="step1" *ngIf="step === 1">
+        <h2>Passo 1 de 4</h2>
         <div class="form-group">
           <label>Nome da Atividade</label>
           <input [formControl]="name" type="text" class="form-control" placeholder="Escreva aqui o nome da atividade">
@@ -35,6 +35,7 @@
 
 
       <div id="step2" *ngIf="step === 2">
+        <h2>Passo 2 de 4</h2>
         <button type="button" class="btn btn-info" (click)="addSolution()">+ Adicionar Solução</button>
         <br style="clear: both"/>
         <br style="clear: both"/>
@@ -63,15 +64,15 @@
       </div>
 
       <div id="step3" *ngIf="step === 3">
+        <h2>Passo 3 de 4</h2>
         <div class="row">
           <div class="col">
             <select class="form-control" [formControl]="selectedSolution">
               <option *ngFor="let solution of solutions; let i = index;" [ngValue]="solution">Solução {{i + 1}}</option>
             </select>
             <br/>
-            <button type="button" class="btn btn-info" (click)="addSolutionTest()">+ Adicionar Teste Específico</button>&nbsp;&nbsp;<button
-            type="button" class="btn btn-info" (click)="addGlobalTest()">+ Adicionar Teste Global
-          </button>
+            <button type="button" class="btn btn-info" (click)="addSolutionTest()">+ Adicionar Teste Específico</button>&nbsp;&nbsp;
+<!--            <button type="button" class="btn btn-info" (click)="addGlobalTest()">+ Adicionar Teste Global</button>-->
             <br/> <br/>
             <div class="row" *ngFor="let test of this.selectedSolution.value.testsToPass; let ti =  index;">
               <div class="col">
@@ -170,10 +171,12 @@
       </div>
 
       <div id="step4" *ngIf="step === 4" class="row">
+
         <div class="col">
+          <h2>Passo 4 de 4</h2>
           <br/>
           <br/>
-          <button type="button" class="btn btn-primary" (click)="addOrEditBr(content, undefined)">Adicionar Referência
+          <button type="button" class="btn btn-info" (click)="addOrEditBr(content, undefined)">Adicionar Referência
             Bibliográfica
           </button>
           <br/>
@@ -231,8 +234,8 @@
       </div>
 
       <br/><br/><br/>
-      <button type="submit" class="btn btn-primary" (click)="previousStep()">Anterior</button>&nbsp;&nbsp;
-      <button type="submit" class="btn btn-primary" (click)="nextStep()">Seguinte</button>&nbsp;&nbsp;
+      <button type="submit" class="btn btn-primary" [disabled]="step == 1" (click)="previousStep()">Anterior</button>&nbsp;&nbsp;
+      <button type="submit" class="btn btn-primary" [disabled]="step == 4" (click)="nextStep()">Seguinte</button>&nbsp;&nbsp;
       <button type="submit" class="btn btn-primary" (click)="saveActivity()">Guardar</button>
       <br/><br/><br/>
     </form>

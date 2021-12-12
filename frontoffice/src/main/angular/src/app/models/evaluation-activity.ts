@@ -5,7 +5,6 @@ export interface Activity {
   activityUnitTestList: ActivityUnitTest[];
   solution: Solution[];
   bibliographicReferenceList: BibliographicReference[];
-  score: number;
 }
 
 export interface  Solution {

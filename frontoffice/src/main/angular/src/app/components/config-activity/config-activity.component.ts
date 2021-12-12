@@ -48,7 +48,6 @@ export class ConfigActivityComponent implements OnInit {
 
   saveActivity() {
     this.mergeValues();
-    //this.activityService.saveActivity(this.activity);
   }
 
   private mergeValues() {
@@ -58,14 +57,12 @@ export class ConfigActivityComponent implements OnInit {
         name: this.name.value,
         id: this.id,
         activityUnitTestList: this.activityTests,
-        score: 0,
         description: this.description.value,
         solution: this.solutions,
         bibliographicReferenceList: this.bibliographicReferenceList
       };
     }
 
-    console.log('Save Activity', this.activity);
     this.activityService.saveActivity(this.activity).subscribe((act: Activity) => {
       this.activity = act;
       console.log('Activity saved:', this.activity);
@@ -73,7 +70,7 @@ export class ConfigActivityComponent implements OnInit {
 
     }, error => {
       console.error(error);
-      alert("Error while saving");
+      alert("Error ao guardar a configuração da atividade");
     });
   }
 
@@ -103,7 +100,7 @@ export class ConfigActivityComponent implements OnInit {
   }
 
   nextStep() {
-    this.step++;
+    this.step = this.step > 3 ? 4: this.step + 1;
   }
 
   previousStep() {
@@ -145,10 +142,10 @@ export class ConfigActivityComponent implements OnInit {
   }
 
   validate(test: ActivityUnitTest) {
-
-
+    const timeCodeStart = test.performance ? "const startTime = new Date();\r\n" : "";
+    const endTime = test.performance ? "const RUN_TIME = (new Date()) - startTime; console.log(RUN_TIME);\r\n" :"";
     try {
-      eval(this.selectedSolution.value.code.code + '\r\n{' + this.ASSERT_FUNC + ';\r\n' + test.code.code + '}');
+      eval(timeCodeStart + this.selectedSolution.value.code.code + endTime + '\r\n{' + this.ASSERT_FUNC + ';\r\n' + test.code.code + '}');
       test.passed = true;
     } catch (e: any) {
       console.error(e);
