@@ -2,10 +2,7 @@ package pt.codemaster.rest.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pt.codemaster.adt.ActivityInstance;
 import pt.codemaster.adt.Deliverable;
 import pt.codemaster.adt.activity.Activity;
@@ -112,9 +109,9 @@ public class Analytics implements IAnalyticsExternalProvider, IAnalyticsRecorder
 
 
 
-    @PostMapping(value = "/analytics/activity/{activityId}/user/{userId}", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
-    public ActivityAnalytics save(String name, String value, Long deliverableId) {
-        return analyticsService.save(name, value, activityService.getDeliverable(deliverableId));
+    @PostMapping(value = "/analytics/deliverable/{deliverableId}", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
+    public ActivityAnalytics save(@RequestBody AnalyticsNameValuePair analyticsNameValuePair, @PathVariable("deliverableId") Long deliverableId) {
+        return analyticsService.save(analyticsNameValuePair.getName(), analyticsNameValuePair.getValue(), activityService.getDeliverable(deliverableId));
     }
 
 }

@@ -5,6 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 import {ActivityUnitTest, Code, Comment, LanguageEnum} from "../../models/evaluation-activity";
 import {CodemirrorComponent} from "@ctrl/ngx-codemirror";
 import {EndUserService} from "../../services/end-user.service";
+import {AnalyticsService} from "../../services/analytics.service";
 
 @Component({
   selector: 'app-cea',
@@ -24,6 +25,7 @@ export class CeaComponent implements OnInit {
 
   constructor(private activityService: ActivityService,
               private endUserService: EndUserService,
+              private analyticsService: AnalyticsService,
               private route: ActivatedRoute) { }
 
 
@@ -67,6 +69,9 @@ export class CeaComponent implements OnInit {
       this.deliverable.solution.testsToPass.forEach(test => {
         this.runTest(test, this.deliverable.code, this.failedTests, this.passedTests);
       });
+
+      this.analyticsService.updatePassedTests(this.deliverable, this.passedTests);
+      this.analyticsService.updateFailedTests(this.deliverable, this.failedTests);
 
     } else {
       this.activityInstance.deliverable.filter( d => d.id != this.deliverable.id).forEach( del => {
@@ -122,6 +127,7 @@ export class CeaComponent implements OnInit {
       this.deliverable.result.push(testResult);
     });
 
+
     return failedTests.length;
   }
 
@@ -159,7 +165,6 @@ export class CeaComponent implements OnInit {
     const consoleCodeEnd = 'console.log = log;';
 
     const fullCode = consoleCode + '\r\n' + deliverable.code.code + consoleCodeEnd +'}';
-    console.log(fullCode);
     eval(fullCode);
 
     deliverable.output = output;
