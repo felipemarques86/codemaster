@@ -15,9 +15,10 @@
           <app-codeeditor [code]="deliverable.code"
                           [commentList]="deliverable.code.commentList"
                           [output]="deliverable.output"
+                          [readOnly]="deliverable.submitted"
                           [currentUser]="currentUser"
-                          (onCodeChange)="codeChange($event)"
-                          (onReplyComment)="replyComment($event)">
+                          (onCodeChange)="codeChangeEvent($event)"
+                          (onReplyComment)="replyCommentEvent($event)">
           </app-codeeditor>
           <br/>
           <button class="btn btn-primary" [disabled]="!deliverable.code.code" (click)="runTests(false)">Correr os meus
@@ -25,7 +26,8 @@
           <button class="btn btn-primary" [disabled]="!deliverable.code.code" (click)="runTests(true)">Correr os testes
             dos meus colegas <span class="badge badge-light">{{activityInstance.deliverable.length - 1}}</span></button>&nbsp;&nbsp;
           <button class="btn btn-info" (click)="addComment(deliverable.code)">Adicionar Comentário</button>&nbsp;&nbsp;
-          <button class="btn btn-primary" (click)="executar(deliverable)">Executar</button>
+          <button class="btn btn-primary" (click)="run(deliverable)">Executar</button>&nbsp;&nbsp;
+          <button class="btn btn-warning" [disabled]="deliverable.submitted" (click)="submit()">{{deliverable.submitted ? 'Submetido!' : 'Submeter' }}</button>
           <br/>
           <br/>
           <div *ngIf="failedTests.length > 0">
@@ -52,7 +54,7 @@
           </app-codeeditor>
           <br/>
           <button class="btn btn-info" (click)="addComment(othersDeliverable.code)">Adicionar Comentário</button>&nbsp;&nbsp;
-          <button class="btn btn-primary" (click)="executar(othersDeliverable)">Executar</button>
+          <button class="btn btn-primary" (click)="run(othersDeliverable)">Executar</button>
           <br/>
           <br/>
           <div *ngFor="let t of othersDeliverable.result">

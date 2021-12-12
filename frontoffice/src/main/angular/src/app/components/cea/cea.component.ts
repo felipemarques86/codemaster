@@ -73,6 +73,7 @@ export class CeaComponent implements OnInit {
       this.activityInstance.deliverable.filter( d => d.id != this.deliverable.id).forEach( del => {
         del.result = [];
         del.solution.testsToPass.forEach( test => {
+
           let failed: any[] = [], passed: any[] = [];
           this.runTest(test, del.code, failed, passed);
           if(failed.length > 0) {
@@ -94,7 +95,35 @@ export class CeaComponent implements OnInit {
         });
       });
     }
+  }
 
+  private checkTests(): number {
+    let failedTests: any = [], passedTests: any = [];
+    for(let i in this.deliverable.solution.testsToPass) {
+      const test = this.deliverable.solution.testsToPass[i];
+      this.runTest(test, this.deliverable.code, failedTests, passedTests);
+    }
+
+    this.deliverable.result = [];
+    failedTests.forEach( (t: {error: string, test: ActivityUnitTest}) => {
+      const testResult: UnitTestResult = {
+          result: t.error,
+          passed: false,
+          unitTest: t.test
+      };
+      this.deliverable.result.push(testResult);
+    });
+
+    passedTests.forEach( (t:ActivityUnitTest) => {
+      const testResult: UnitTestResult = {
+        result: '',
+        passed: true,
+        unitTest: t
+      };
+      this.deliverable.result.push(testResult);
+    });
+
+    return failedTests.length;
   }
 
   private runTest(test: ActivityUnitTest, code: Code, failedTests: any[], passedTests: any[]) {
@@ -111,6 +140,8 @@ export class CeaComponent implements OnInit {
       default:
         alert("Language not supported: " + test.code.language);
     }
+
+    return failedTests.length == 0;
   }
 
   getOthersDeliverable() {
@@ -137,30 +168,30 @@ export class CeaComponent implements OnInit {
     }
   }
 
-  buildComments(codemirrorComponent: CodemirrorComponent, deliverable: Deliverable): void {
-    let n = 0;
-    codemirrorComponent.codeMirror?.eachLine( (line: LineHandle) => {
-      if(line.text.indexOf('/**<comment>') >= 0) {
-        let p1: Position = {ch: line.text.indexOf('/**<comment>'), line: n};
-        let p2: Position = {ch: line.text.indexOf('**/', p1.ch)+3, line: n};
+  // buildComments(codemirrorComponent: CodemirrorComponent, deliverable: Deliverable): void {
+  //   let n = 0;
+  //   codemirrorComponent.codeMirror?.eachLine( (line: LineHandle) => {
+  //     if(line.text.indexOf('/**<comment>') >= 0) {
+  //       let p1: Position = {ch: line.text.indexOf('/**<comment>'), line: n};
+  //       let p2: Position = {ch: line.text.indexOf('**/', p1.ch)+3, line: n};
+  //
+  //       const elm = document.createElement("span");
+  //
+  //       let opts: any = { readOnly: true, className: 'cea-comment', atomic: true, replacedWith: elm};
+  //       let commentId = +line.text.substring(p1.ch, p2.ch).replace("/**<comment>", "").replace("</comment>**/", "");
+  //       let comment = deliverable.code.commentList.find( c => c.id == commentId );
+  //       if(comment) {
+  //         elm.id = "comment_" + comment.id;
+  //         elm.className = "btn btn-info cea-comment";
+  //         elm.innerHTML = "<span class='badge badge-light'>" + comment.id +"</span> Comentário de " + comment.author.name + "";
+  //       }
+  //       codemirrorComponent.codeMirror?.markText(p1, p2, opts);
+  //     }
+  //     n++;
+  //   });
+  // }
 
-        const elm = document.createElement("span");
-
-        let opts: any = { readOnly: true, className: 'cea-comment', atomic: true, replacedWith: elm};
-        let commentId = +line.text.substring(p1.ch, p2.ch).replace("/**<comment>", "").replace("</comment>**/", "");
-        let comment = deliverable.code.commentList.find( c => c.id == commentId );
-        if(comment) {
-          elm.id = "comment_" + comment.id;
-          elm.className = "btn btn-info cea-comment";
-          elm.innerHTML = "<span class='badge badge-light'>" + comment.id +"</span> Comentário de " + comment.author.name + "";
-        }
-        codemirrorComponent.codeMirror?.markText(p1, p2, opts);
-      }
-      n++;
-    });
-  }
-
-  executar(deliverable: Deliverable) {
+  run(deliverable: Deliverable) {
     let output = '';
 
     const consoleCode = '{\n' +
@@ -192,9 +223,8 @@ export class CeaComponent implements OnInit {
 
         this.activityService.addComment(code, comment, +line, this.deliverable.author.id).subscribe( code => {
             code.code = code.code;
+            code.commentList = code.commentList;
         });
-
-
       }
   }
 
@@ -202,11 +232,26 @@ export class CeaComponent implements OnInit {
     return this.deliverable.author;
   }
 
-  codeChange($event: any) {
+  codeChangeEvent($event: any) {
     //console.log('codeChange', $event);
   }
 
-  replyComment($event: any) {
+  replyCommentEvent($event: any) {
     //console.log('replyComment', $event);
+  }
+
+  submit() {
+    let submitFlag = true;
+    let failedTestsCount = this.checkTests();
+    if(failedTestsCount > 0) {
+      submitFlag = confirm(`Existem ${failedTestsCount} testes que estão a falhar. Tem a certeza que quer submeter?`);
+    }
+    if(submitFlag) {
+      if(confirm('Após a submissão não poderá alterar o código que escreveu. No entanto poderá fazer comentários no seu código ou nos códigos dos seus colegas. Tem a certeza que quer continuar?')) {
+        this.activityService.submit(this.deliverable).subscribe( del => {
+          this.deliverable = del;
+        });
+      }
+    }
   }
 }

@@ -4,6 +4,7 @@ import pt.codemaster.adt.activity.UnitTestResult;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,12 +17,13 @@ public class Deliverable {
     private String content;
     @ManyToOne(cascade = CascadeType.ALL)
     private Code code;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<UnitTestResult> result = new ArrayList<>();
     @ManyToOne
     private Solution solution;
     private boolean submitted;
     private boolean readOnly;
+    private Date submissionDate;
 
     public Deliverable(Solution solution) {
         this.solution = solution;
@@ -95,6 +97,11 @@ public class Deliverable {
         this.readOnly = readOnly;
     }
 
+    public Date getSubmissionDate() {
+        return submissionDate;
+    }
 
-
+    public void setSubmissionDate(Date submissionDate) {
+        this.submissionDate = submissionDate;
+    }
 }

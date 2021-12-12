@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ActivityInstance} from "../models/activity-instance";
+import {ActivityInstance, Deliverable} from "../models/activity-instance";
 import {Activity, Code, Comment, EndUser} from "../models/evaluation-activity";
 
 @Injectable({
@@ -59,5 +59,12 @@ export class ActivityService {
       {content: commentText}
     );
 
+  }
+
+  submit(deliverable: Deliverable) : Observable<Deliverable> {
+    return this.http.post<Deliverable>(
+      `http://localhost/v1/api/deliverable/submit`,
+      deliverable
+    );
   }
 }

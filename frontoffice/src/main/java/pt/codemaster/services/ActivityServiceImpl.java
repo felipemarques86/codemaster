@@ -33,6 +33,9 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private DeliverableRepository deliverableRepository;
+
     @Override
     public ActivityInstance<Activity> getInstance(Long id) {
         return activityInstanceRepository.findById(id).orElse(null);
@@ -105,6 +108,19 @@ public class ActivityServiceImpl implements ActivityService {
             commentRepository.save(parent);
             return commentRepository.save(comment);
         }
+        return null;
+    }
+
+    @Override
+    public Deliverable submit(Deliverable deliverable) {
+
+        if( deliverable != null) {
+            deliverable.setSubmitted(true);
+            deliverable.setSubmissionDate(new Date());
+
+            return deliverableRepository.save(deliverable);
+        }
+
         return null;
     }
 

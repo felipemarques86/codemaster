@@ -8,10 +8,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import pt.codemaster.adt.*;
 import pt.codemaster.adt.activity.Activity;
 import pt.codemaster.adt.activity.ActivityDeployRequest;
-import pt.codemaster.adt.activity.ActivityUnitTest;
-import pt.codemaster.adt.activity.BibliographicReference;
-
-import java.util.Arrays;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -144,6 +140,10 @@ public class ApiRest {
         return activityService.getInstance(id);
     }
 
+    @PostMapping(value = "/deliverable/submit", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public Deliverable submit(@RequestBody Deliverable deliverable) {
+        return activityService.submit(deliverable);
+    }
 
 
 }
