@@ -1,5 +1,7 @@
 package pt.codemaster.adt.activity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import pt.codemaster.adt.ActivityInstance;
 import pt.codemaster.adt.Solution;
 
 import javax.persistence.*;

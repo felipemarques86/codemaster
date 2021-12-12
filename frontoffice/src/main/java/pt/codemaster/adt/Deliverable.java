@@ -1,5 +1,7 @@
 package pt.codemaster.adt;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import pt.codemaster.adt.activity.Activity;
 import pt.codemaster.adt.activity.UnitTestResult;
 
 import javax.persistence.*;
@@ -24,6 +26,9 @@ public class Deliverable {
     private boolean submitted;
     private boolean readOnly;
     private Date submissionDate;
+    @ManyToOne
+    @JsonIgnore
+    private ActivityInstance<Activity> activityInstance;
 
     public Deliverable(Solution solution) {
         this.solution = solution;
@@ -103,5 +108,13 @@ public class Deliverable {
 
     public void setSubmissionDate(Date submissionDate) {
         this.submissionDate = submissionDate;
+    }
+
+    public ActivityInstance<Activity> getActivityInstance() {
+        return activityInstance;
+    }
+
+    public void setActivityInstance(ActivityInstance<Activity> activityInstance) {
+        this.activityInstance = activityInstance;
     }
 }

@@ -4,6 +4,8 @@ import pt.codemaster.adt.*;
 import pt.codemaster.adt.activity.Activity;
 import pt.codemaster.repositories.DeliverableRepository;
 
+import java.util.List;
+
 public interface ActivityService {
     ActivityInstance<Activity> getInstance(Long id);
     Activity saveActivity(Activity activity);
@@ -15,4 +17,5 @@ public interface ActivityService {
     Code addComment(Long codeId, String userId, Long line, Comment comment);
     Comment replyComment(String userId, Long commentId, Comment comment);
     Deliverable submit(Deliverable deliverable);
+    List<ActivityInstance<Activity>> getInstances(Long id);
 }

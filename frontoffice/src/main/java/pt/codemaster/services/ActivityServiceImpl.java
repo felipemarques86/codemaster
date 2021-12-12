@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ActivityServiceImpl implements ActivityService {
@@ -122,6 +123,14 @@ public class ActivityServiceImpl implements ActivityService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<ActivityInstance<Activity>> getInstances(Long id) {
+        return activityInstanceRepository.findAll()
+                .stream()
+                .filter( activityInstance -> activityInstance.getActivity().getId().equals(id))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -7,7 +7,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import pt.codemaster.adt.*;
 import pt.codemaster.adt.activity.Activity;
+import pt.codemaster.adt.analytics.ActivityAnalytics;
 import pt.codemaster.adt.activity.ActivityDeployRequest;
+import pt.codemaster.adt.analytics.ActivityAnalyticsDto;
+import pt.codemaster.adt.analytics.AnalyticsNameValuePair;
+import pt.codemaster.adt.analytics.AnalyticsRequest;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -17,6 +25,9 @@ public class ApiRest {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private AnalyticsService analyticsService;
 
 
     @PostMapping(value="/activity", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
@@ -66,9 +77,7 @@ public class ApiRest {
         return "pong";
     }
 
-    @PostMapping(value = "/analytics.json", produces = APPLICATION_JSON)
-    public String analytics() {
-        return "[\n" +
+    /*        return "[\n" +
                 "  {\n" +
                 "    \"inveniraStdID\": 1001,\n" +
                 "    \"quantAnalytics\": [\n" +
@@ -119,7 +128,64 @@ public class ApiRest {
                 "      }\n" +
                 "    ]\n" +
                 "  }\n" +
-                "]";
+                "]";*/
+    @PostMapping(value = "/analytics.json", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
+    public Collection<ActivityAnalyticsDto> analytics(@RequestBody AnalyticsRequest request) {
+
+        Activity activity = activityService.getActivity(Long.parseLong(request.getActivityID()));
+        if( activity != null) {
+            List<ActivityAnalytics> analytics = analyticsService.getAnalytics(activity);
+            List<ActivityInstance<Activity>> instances = activityService.getInstances(activity.getId());
+
+            Map<Long, ActivityAnalyticsDto> data = new HashMap<>();
+            for(ActivityInstance<Activity> instance : instances) {
+                for(Deliverable deliverable : instance.getDeliverable()) {
+                    Long id = Long.parseLong(deliverable.getAuthor().getId());
+                    ActivityAnalyticsDto dto = new ActivityAnalyticsDto();
+                    dto.setInveniraStdID(deliverable.getAuthor().getId());
+                    dto.getQuantAnalytics().add(new AnalyticsNameValuePair("Submetido", Boolean.toString(deliverable.isSubmitted())));
+                    dto.getQuantAnalytics()
+                            .add(new AnalyticsNameValuePair("Comentários Feitos",
+                                    Integer.toString(instance.getDeliverable()
+                                            .stream()
+                                            .flatMap( deliverable1 ->
+                                                    Stream.concat(
+                                                            deliverable1.getCode()
+                                                                .getCommentList()
+                                                                .stream()
+                                                                .filter( comment -> comment.getAuthor()
+                                                                        .getId()
+                                                                        .equals(deliverable.getAuthor().getId())),
+
+                                                            deliverable1.getCode()
+                                                                .getCommentList()
+                                                                    .stream()
+                                                                    .flatMap( comment -> comment.getReplies()
+                                                                            .stream()
+                                                                            .filter( c -> c.getAuthor()
+                                                                                    .getId()
+                                                                                    .equals(deliverable
+                                                                                            .getAuthor().getId()))))
+
+                                            ).collect(Collectors.toList()).size())));
+                    data.put(id, dto);
+                }
+            }
+
+            for(ActivityAnalytics a : analytics) {
+                Long id = Long.parseLong(a.getDeliverable().getAuthor().getId());
+                ActivityAnalyticsDto dto =  data.get(id);
+                dto.getQuantAnalytics().add(a);
+            }
+
+            for(Long id : data.keySet()) {
+                data.get(id).getQualAnalytics().add(new AnalyticsNameValuePair("Student activity profile", "http://cea-develop.herokuapp.com/v1/api/#/activity/"+activity.getId()+"/user/" + id + "/analytics.html"));
+                data.get(id).getQualAnalytics().add(new AnalyticsNameValuePair("Activity Data", "http://cea-develop.herokuapp.com/v1/api/#/activity/"+activity.getId()+"/user/" + id + "/activityData.html"));
+            }
+
+            return data.values();
+        }
+        return null;
     }
 
     @GetMapping(value = "/config")

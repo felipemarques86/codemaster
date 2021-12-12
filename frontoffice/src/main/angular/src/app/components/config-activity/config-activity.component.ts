@@ -136,7 +136,6 @@ export class ConfigActivityComponent implements OnInit {
   }
 
   validateGlobalTest(test: ActivityUnitTest) {
-
     const c = this.solutions.map(s => s.code.code).reduce((s1, s2) => s1 + ";" + s2 + ";");
     try {
       eval(c + '\r\n{' + this.ASSERT_FUNC + ';\r\n' + test.code.code + '}');
