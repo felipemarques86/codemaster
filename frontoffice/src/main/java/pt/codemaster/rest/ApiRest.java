@@ -1,4 +1,4 @@
-package pt.codemaster.services;
+package pt.codemaster.rest;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,8 @@ import pt.codemaster.adt.analytics.ActivityAnalytics;
 import pt.codemaster.adt.analytics.ActivityAnalyticsDto;
 import pt.codemaster.adt.analytics.AnalyticsNameValuePair;
 import pt.codemaster.adt.analytics.AnalyticsRequest;
+import pt.codemaster.services.ActivityService;
+import pt.codemaster.services.AnalyticsService;
 import pt.codemaster.validators.ActivityValidator;
 import pt.codemaster.validators.CodeValidator;
 import pt.codemaster.validators.DeliverableValidator;
