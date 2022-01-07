@@ -3,10 +3,10 @@ package pt.codemaster.adt.analytics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityAnalyticsDto {
+public class ActivityAnalyticsReport {
     private String inveniraStdID;
-    private List<AnalyticsNameValuePair> quantAnalytics = new ArrayList<>();
-    private List<AnalyticsNameValuePair> qualAnalytics = new ArrayList<>();
+    private List<INameValuePair> quantAnalytics = new ArrayList<>();
+    private List<INameValuePair> qualAnalytics = new ArrayList<>();
 
     public String getInveniraStdID() {
         return inveniraStdID;
@@ -16,19 +16,19 @@ public class ActivityAnalyticsDto {
         this.inveniraStdID = inveniraStdID;
     }
 
-    public List<AnalyticsNameValuePair> getQuantAnalytics() {
+    public List<INameValuePair> getQuantAnalytics() {
         return quantAnalytics;
     }
 
-    public void setQuantAnalytics(List<AnalyticsNameValuePair> quantAnalytics) {
+    public void setQuantAnalytics(List<INameValuePair> quantAnalytics) {
         this.quantAnalytics = quantAnalytics;
     }
 
-    public List<AnalyticsNameValuePair> getQualAnalytics() {
+    public List<INameValuePair> getQualAnalytics() {
         return qualAnalytics;
     }
 
-    public void setQualAnalytics(List<AnalyticsNameValuePair> qualAnalytics) {
+    public void setQualAnalytics(List<INameValuePair> qualAnalytics) {
         this.qualAnalytics = qualAnalytics;
     }
 }

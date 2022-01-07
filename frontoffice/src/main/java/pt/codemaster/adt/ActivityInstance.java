@@ -65,4 +65,12 @@ public class ActivityInstance {
     public void setActivity(Activity activity) {
         this.activity = activity;
     }
+
+    @Override
+    public String toString() {
+        return "ActivityInstance{" +
+                "id=" + id +
+                ", activity=" + activity +
+                '}';
+    }
 }

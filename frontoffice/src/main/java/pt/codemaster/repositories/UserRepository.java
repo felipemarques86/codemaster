@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import pt.codemaster.adt.EndUser;
 
 @Repository
-public interface EndUserRepository extends CrudRepository<EndUser, String> {
+public interface UserRepository extends CrudRepository<EndUser, String> {
 }

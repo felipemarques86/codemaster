@@ -1,6 +1,9 @@
 package pt.codemaster.adt.analytics;
 
-public class AnalyticsNameValuePair {
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonSerialize(as=INameValuePair.class)
+public class AnalyticsNameValuePair implements INameValuePair {
     private String name;
     private String value;
 

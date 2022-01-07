@@ -11,9 +11,10 @@ import {CodemirrorModule} from '@ctrl/ngx-codemirror';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import 'codemirror/mode/javascript/javascript';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { CodeeditorComponent } from './components/codeeditor/codeeditor.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { TestConfigActivityComponent } from './components/test-config-activity/test-config-activity.component';
+import {CodeeditorComponent} from './components/codeeditor/codeeditor.component';
+import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
+import {TestConfigActivityComponent} from './components/test-config-activity/test-config-activity.component';
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { TestConfigActivityComponent } from './components/test-config-activity/t
     NgbModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [ DatePipe ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

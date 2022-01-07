@@ -69,13 +69,13 @@ public class ActivityInstances implements IActivityRuntime {
     }
 
     @Override
-    @PostMapping(value = "/deliverable/submit", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
-    public ResponseEntity<Deliverable> submit(@RequestBody Deliverable deliverable) {
+    @PostMapping(value = "/cea/{id}/deliverable/submit", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<Deliverable> submit(@PathVariable("id") Long ceaId, @RequestBody Deliverable deliverable) {
         List<ValidationError> errors = DeliverableValidator.getInstance().validate(deliverable);
         if(!errors.isEmpty()) {
             return new ResponseEntity<>(deliverable, HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(activityService.submit(deliverable));
+        return ResponseEntity.ok(activityService.submit(ceaId, deliverable));
     }
 
 

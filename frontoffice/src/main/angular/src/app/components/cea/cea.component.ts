@@ -6,6 +6,7 @@ import {ActivityUnitTest, Code, Comment, LanguageEnum} from "../../models/evalua
 import {CodemirrorComponent} from "@ctrl/ngx-codemirror";
 import {EndUserService} from "../../services/end-user.service";
 import {AnalyticsService} from "../../services/analytics.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-cea',
@@ -26,7 +27,8 @@ export class CeaComponent implements OnInit {
   constructor(private activityService: ActivityService,
               private endUserService: EndUserService,
               private analyticsService: AnalyticsService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private datePipe: DatePipe) { }
 
 
   ngOnInit(): void {
@@ -40,9 +42,13 @@ export class CeaComponent implements OnInit {
         }
 
         this.activityInstance = instance;
+
         this.activityInstance.deliverable.forEach( del =>{
             if(del.author && del.author.id == +userId) {
               this.deliverable = del;
+
+              this.analyticsService.putAnalytics(this.deliverable, 'Data do último acesso a atividade', this.datePipe.transform(new Date(), 'dd-MM-yy HH:mm'));
+
               if(!this.deliverable.author.name) {
                 let authorName = null;
                 do {
@@ -50,7 +56,7 @@ export class CeaComponent implements OnInit {
                 } while(!authorName);
                 this.deliverable.author.name = authorName;
                 this.endUserService.saveEndUser(this.deliverable.author).subscribe( endUser => {
-                  console.log(endUser);
+
                 })
               }
             }
@@ -72,8 +78,12 @@ export class CeaComponent implements OnInit {
 
       this.analyticsService.updatePassedTests(this.deliverable, this.passedTests);
       this.analyticsService.updateFailedTests(this.deliverable, this.failedTests);
+      this.analyticsService.putAnalytics(this.deliverable, 'Data de execução testes', this.datePipe.transform(new Date(), 'dd-MM-yy HH:mm') );
 
     } else {
+
+      this.analyticsService.putAnalytics(this.deliverable, 'Data execução dos testes dos colegas', this.datePipe.transform(new Date(), 'dd-MM-yy HH:mm'));
+
       this.activityInstance.deliverable.filter( d => d.id != this.deliverable.id).forEach( del => {
         del.result = [];
         del.solution.testsToPass.forEach( test => {
@@ -165,9 +175,17 @@ export class CeaComponent implements OnInit {
     const consoleCodeEnd = 'console.log = log;';
 
     const fullCode = consoleCode + '\r\n' + deliverable.code.code + consoleCodeEnd +'}';
-    eval(fullCode);
+    try {
+      eval(fullCode);
+    } catch(e) {
+      this.analyticsService.putAnalytics(deliverable, 'Execução de código com erro de ' + deliverable.author?.name, this.datePipe.transform(new Date(), 'dd-MM-yy HH:mm'));
+      return;
+    }
 
     deliverable.output = output;
+
+    this.analyticsService.putAnalytics(deliverable, 'Execução de código sem erros de ' + deliverable.author?.name, this.datePipe.transform(new Date(), 'dd-MM-yy HH:mm'));
+
   }
 
   addComment(code: Code) {
@@ -210,8 +228,9 @@ export class CeaComponent implements OnInit {
     }
     if(submitFlag) {
       if(confirm('Após a submissão não poderá alterar o código que escreveu. No entanto poderá fazer comentários no seu código ou nos códigos dos seus colegas. Tem a certeza que quer continuar?')) {
-        this.activityService.submit(this.deliverable).subscribe( del => {
+        this.activityService.submit(this.activityInstance.id, this.deliverable).subscribe( del => {
           this.deliverable = del;
+          this.analyticsService.putAnalytics(del, 'Testes a falhar na submissão', failedTestsCount+"");
         });
       }
     }

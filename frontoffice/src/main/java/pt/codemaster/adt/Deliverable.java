@@ -25,7 +25,7 @@ public class Deliverable {
     private boolean submitted;
     private boolean readOnly;
     private Date submissionDate;
-    @ManyToOne()
+    @ManyToOne
     @JsonIgnore
     private ActivityInstance activityInstance;
 
@@ -115,5 +115,13 @@ public class Deliverable {
 
     public void setActivityInstance(ActivityInstance activityInstance) {
         this.activityInstance = activityInstance;
+    }
+
+    @Override
+    public String toString() {
+        return "Deliverable{" +
+                "id=" + id +
+                ", activityInstance=" + activityInstance +
+                '}';
     }
 }

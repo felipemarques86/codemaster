@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import pt.codemaster.adt.*;
 import pt.codemaster.adt.activity.Activity;
 import pt.codemaster.repositories.*;
-import pt.codemaster.services.*;
+import pt.codemaster.services.IActivityDefinitionService;
+import pt.codemaster.services.IActivityService;
+import pt.codemaster.services.IDeploymentService;
+import pt.codemaster.services.IUserService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -117,11 +120,12 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
     }
 
     @Override
-    public Deliverable submit(Deliverable deliverable) {
+    public Deliverable submit(Long ceaId, Deliverable deliverable) {
 
         if( deliverable != null) {
             deliverable.setSubmitted(true);
             deliverable.setSubmissionDate(new Date());
+            deliverable.setActivityInstance(activityInstanceRepository.getById(ceaId));
             deliverable = deliverableRepository.save(deliverable);
             return deliverable;
 
@@ -174,6 +178,7 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
                 deliverable.setCode(emptyCode);
                 deliverable.setSolution(solution);
                 deliverables.add(deliverable);
+                deliverable.setActivityInstance(instance);
             }
             instance.setDeliverable(deliverables);
             logger.info("New instance created");
