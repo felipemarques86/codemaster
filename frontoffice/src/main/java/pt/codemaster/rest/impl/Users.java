@@ -1,6 +1,7 @@
 package pt.codemaster.rest.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import pt.codemaster.services.IUserService;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @RestController
+@CrossOrigin
 public class Users implements IUsersInternalRepository {
 
     @Autowired

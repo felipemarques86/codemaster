@@ -1,5 +1,6 @@
 package pt.codemaster.rest.impl;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pt.codemaster.adt.analytics.ActivityAnalyticsDto;
@@ -10,6 +11,7 @@ import java.util.Collection;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @RestController
+@CrossOrigin
 public class AnalyticsInternal implements IAnalyticsInternalProvider {
     @GetMapping(value = "/analytics/activity/{activityId}/user/{userId}/analytics", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
     public Collection<ActivityAnalyticsDto> userAnalytics(Long userId, Long activityId) {

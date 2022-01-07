@@ -15,7 +15,7 @@ public class UsersServiceImpl implements IUserService {
 
     public EndUser getOrCreateUser(String userId) {
         Optional<EndUser> optionalEndUser = endUserRepository.findById(userId);
-        if(optionalEndUser.isEmpty()) {
+        if(!optionalEndUser.isPresent()) {
             EndUser endUser = new EndUser();
             endUser.setId(userId);
             return endUserRepository.save(endUser);

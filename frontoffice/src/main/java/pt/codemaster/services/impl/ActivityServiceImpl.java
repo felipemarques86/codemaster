@@ -40,7 +40,15 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
 
     @Override
     public ActivityInstance getInstance(Long id) {
-        return activityInstanceRepository.findById(id).orElse(null);
+        Optional<ActivityInstance> activityInstance = activityInstanceRepository.findById(id);
+
+        if(activityInstance.isPresent()) {
+            return activityInstance.get();
+        }
+
+        System.err.println("Instance not found: " + id);
+
+        return null;
     }
 
 
@@ -150,7 +158,7 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
 
         ActivityInstance instance = null;
 
-        if(!any.isEmpty()){
+        if(any.isPresent()){
             instance = any.get();
             logger.info("Instance found with ID = " +  instance.getId());
         } else {
@@ -174,7 +182,7 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
 
         Optional<Deliverable> deliverable = instance.getDeliverable().stream().filter(d -> d.getAuthor() == null || d.getAuthor().getId() == userId).findAny();
 
-        if(deliverable.isEmpty()){
+        if(!deliverable.isPresent()){
             return instance;
         } else {
             Deliverable deliverable1 = deliverable.get();
