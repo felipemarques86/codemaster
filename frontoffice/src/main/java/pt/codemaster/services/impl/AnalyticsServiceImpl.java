@@ -200,11 +200,6 @@ public class AnalyticsServiceImpl implements IAnalyticsService {
             }
         }
 
-        for(Long id : data.keySet()) {
-            data.get(id).getQualAnalytics().add(new AnalyticsNameValuePair("Student activity profile", "http://cea-develop.herokuapp.com/v1/api/#/activity/"+ activity.getId()+"/user/" + id + "/analytics.html"));
-            data.get(id).getQualAnalytics().add(new AnalyticsNameValuePair("Activity Data", "http://cea-develop.herokuapp.com/v1/api/#/activity/"+ activity.getId()+"/user/" + id + "/activityData.html"));
-        }
-
         return data.values();
     }
 }
