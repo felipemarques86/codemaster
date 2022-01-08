@@ -1,9 +1,6 @@
 package pt.codemaster.services;
 
-import pt.codemaster.adt.ActivityInstance;
-import pt.codemaster.adt.Code;
-import pt.codemaster.adt.Comment;
-import pt.codemaster.adt.Deliverable;
+import pt.codemaster.adt.*;
 
 import java.util.List;
 
@@ -16,4 +13,5 @@ public interface IActivityService {
     Deliverable submit(Long ceaId, Deliverable deliverable);
     List<ActivityInstance> getInstances(Long id);
     Deliverable getDeliverable(Long deliverableId);
+    List<ActivityInstance> getInstances(EndUser user);
 }

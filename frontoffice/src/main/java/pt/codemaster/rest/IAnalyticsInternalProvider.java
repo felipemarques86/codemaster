@@ -1,10 +1,10 @@
 package pt.codemaster.rest;
 
-import pt.codemaster.adt.analytics.ActivityAnalyticsReport;
-
-import java.util.Collection;
+import org.springframework.web.bind.annotation.RequestBody;
+import pt.codemaster.adt.analytics.AnalyticsRequest;
 
 public interface IAnalyticsInternalProvider {
-    Collection<ActivityAnalyticsReport> userAnalytics(Long userId, Long activityId);
-    Collection<ActivityAnalyticsReport> userActivityData(Long userId, Long activityId);
+    byte[] analyticsPdf(@RequestBody AnalyticsRequest request) throws Exception;
+    byte[] analyticsCsv(@RequestBody AnalyticsRequest request) throws Exception;
+    byte[] analyticsHtml(@RequestBody AnalyticsRequest request) throws Exception;
 }

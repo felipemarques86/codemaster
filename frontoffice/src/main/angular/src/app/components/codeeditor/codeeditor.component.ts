@@ -82,9 +82,9 @@ export class CodeeditorComponent implements OnInit {
     console.log(this.commentList);
     let n = 0;
     this.codemirrorComponent.codeMirror?.eachLine((line: LineHandle) => {
-
-      if (line.text.indexOf('/**<comment>') >= 0) {
-        let p1: Position = {ch: line.text.indexOf('/**<comment>'), line: n};
+      let p = 0;
+      while (line.text.indexOf('/**<comment>', p) >= 0) {
+        let p1: Position = {ch: line.text.indexOf('/**<comment>', p), line: n};
         let p2: Position = {ch: line.text.indexOf('**/', p1.ch) + 3, line: n};
 
         const elm = document.createElement("span");
@@ -102,6 +102,8 @@ export class CodeeditorComponent implements OnInit {
           });
         }
         this.codemirrorComponent.codeMirror?.markText(p1, p2, opts);
+
+        p = p2.ch;
       }
       n++;
     });

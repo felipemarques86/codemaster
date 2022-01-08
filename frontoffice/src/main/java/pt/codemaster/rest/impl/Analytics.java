@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pt.codemaster.adt.activity.Activity;
 import pt.codemaster.adt.analytics.ActivityAnalytics;
-import pt.codemaster.adt.analytics.ActivityAnalyticsReport;
+import pt.codemaster.adt.analytics.ActivityUserAnalytics;
 import pt.codemaster.adt.analytics.AnalyticsNameValuePair;
 import pt.codemaster.adt.analytics.AnalyticsRequest;
+import pt.codemaster.adt.analytics.reports.JsonReport;
+import pt.codemaster.adt.analytics.reports.ReportGenerator;
 import pt.codemaster.rest.IAnalyticsExternalProvider;
 import pt.codemaster.rest.IAnalyticsRecorder;
 import pt.codemaster.services.IActivityDefinitionService;
@@ -14,6 +16,7 @@ import pt.codemaster.services.IActivityService;
 import pt.codemaster.services.IAnalyticsService;
 
 import java.util.Collection;
+import java.util.Date;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -31,9 +34,13 @@ public class Analytics implements IAnalyticsExternalProvider, IAnalyticsRecorder
     private IAnalyticsService analyticsService;
 
     @PostMapping(value = "/analytics.json", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
-    public Collection<ActivityAnalyticsReport> analytics(@RequestBody AnalyticsRequest request) {
+    public byte[] analyticsJson(@RequestBody AnalyticsRequest request) throws Exception {
         Activity activity = activityDefinitionService.getActivity(Long.parseLong(request.getActivityID()));
-        return analyticsService.getAnalyticsReport(activity);
+        Collection<ActivityUserAnalytics> analyticsReport = analyticsService.getAnalyticsReport(activity);
+        ReportGenerator generator = new ReportGenerator(new JsonReport());
+        generator.setName("Relatório da atividade");
+        generator.setDate(new Date());
+        return generator.generate(analyticsReport);
     }
 
 

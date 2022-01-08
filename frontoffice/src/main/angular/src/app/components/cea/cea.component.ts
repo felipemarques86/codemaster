@@ -178,13 +178,14 @@ export class CeaComponent implements OnInit {
     try {
       eval(fullCode);
     } catch(e) {
-      this.analyticsService.putAnalytics(deliverable, 'Execução de código com erro de ' + deliverable.author?.name, this.datePipe.transform(new Date(), 'dd-MM-yy HH:mm'));
+      if(deliverable.author)
+        this.analyticsService.putAnalytics(deliverable, 'Execução de código com erro de ' + deliverable.author.name, this.datePipe.transform(new Date(), 'dd-MM-yy HH:mm'));
       return;
     }
 
     deliverable.output = output;
-
-    this.analyticsService.putAnalytics(deliverable, 'Execução de código sem erros de ' + deliverable.author?.name, this.datePipe.transform(new Date(), 'dd-MM-yy HH:mm'));
+    if(deliverable.author)
+      this.analyticsService.putAnalytics(deliverable, 'Execução de código sem erros de ' + deliverable.author.name, this.datePipe.transform(new Date(), 'dd-MM-yy HH:mm'));
 
   }
 

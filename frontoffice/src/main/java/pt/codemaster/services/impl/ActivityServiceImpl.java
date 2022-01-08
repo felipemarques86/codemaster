@@ -143,6 +143,14 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
     }
 
     @Override
+    public List<ActivityInstance> getInstances(EndUser endUser) {
+        return activityInstanceRepository.findAll()
+                .stream()
+                .filter( activityInstance -> activityInstance.getDeliverable().stream().anyMatch( d -> d.getAuthor() != null && d.getAuthor().getId().equals(endUser.getId())))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Deliverable getDeliverable(Long deliverableId) {
         return this.deliverableRepository.findById(deliverableId).orElse(null);
     }
