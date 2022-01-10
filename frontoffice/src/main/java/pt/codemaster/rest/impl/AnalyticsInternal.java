@@ -37,7 +37,7 @@ public class AnalyticsInternal implements IAnalyticsInternalProvider {
         Activity activity = activityDefinitionService.getActivity(Long.parseLong(request.getActivityID()));
         Collection<ActivityUserAnalytics> analyticsReport = analyticsService.getAnalyticsReport(activity);
         ReportGenerator generator = new ReportGenerator(new PdfReport());
-        generator.setName("Relatório da atividade");
+        generator.setName("Relatório da atividade - versão PDF");
         generator.setDate(new Date());
         return generator.generate(analyticsReport);
     }
@@ -48,7 +48,7 @@ public class AnalyticsInternal implements IAnalyticsInternalProvider {
         Activity activity = activityDefinitionService.getActivity(Long.parseLong(request.getActivityID()));
         Collection<ActivityUserAnalytics> analyticsReport = analyticsService.getAnalyticsReport(activity);
         ReportGenerator generator = new ReportGenerator(new CsvReport());
-        generator.setName("Relatório da atividade");
+        generator.setName("Relatório da atividade - versão CSV/Excel");
         generator.setDate(new Date());
         return generator.generate(analyticsReport);
     }
@@ -59,7 +59,7 @@ public class AnalyticsInternal implements IAnalyticsInternalProvider {
         Activity activity = activityDefinitionService.getActivity(Long.parseLong(request.getActivityID()));
         Collection<ActivityUserAnalytics> analyticsReport = analyticsService.getAnalyticsReport(activity);
         ReportGenerator generator = new ReportGenerator(new HtmlReport());
-        generator.setName("Relatório da atividade");
+        generator.setName("Relatório da atividade - versão web");
         generator.setDate(new Date());
         return generator.generate(analyticsReport);
     }
