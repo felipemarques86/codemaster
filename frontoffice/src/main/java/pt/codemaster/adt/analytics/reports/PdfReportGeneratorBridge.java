@@ -1,18 +1,22 @@
 package pt.codemaster.adt.analytics.reports;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+import pt.codemaster.adt.analytics.ActivityUserAnalytics;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.Collection;
 
-public class PdfReport extends HtmlReport {
+public class PdfReportGeneratorBridge extends ReportGeneratorBridge {
 
-    @Override
-    public byte[] getBinary() throws Exception {
-        byte [] data = super.getBinary();
-        System.out.println(new String(data));
+    public PdfReportGeneratorBridge(Report report) {
+        super(report);
+    }
+
+    public byte[] convertToPdf(Collection<ActivityUserAnalytics> analyticsCollection) throws Exception {
+        byte[] data = super.generate(analyticsCollection);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setValidating(false);
         factory.setNamespaceAware(false);
@@ -27,11 +31,6 @@ public class PdfReport extends HtmlReport {
             data = os.toByteArray();
         }
         return data;
-    }
-
-    @Override
-    public String getFileExtension() {
-        return "pdf";
     }
 
 }

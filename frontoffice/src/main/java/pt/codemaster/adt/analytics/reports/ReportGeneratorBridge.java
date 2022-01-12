@@ -5,11 +5,11 @@ import pt.codemaster.adt.analytics.ActivityUserAnalytics;
 import java.util.Collection;
 import java.util.Date;
 
-public class ReportGenerator {
+public class ReportGeneratorBridge {
     private Report report;
 
 
-    public ReportGenerator(Report report) {
+    public ReportGeneratorBridge(Report report) {
         this.report = report;
     }
 

@@ -10,8 +10,8 @@ import pt.codemaster.adt.analytics.ActivityUserAnalytics;
 import pt.codemaster.adt.analytics.AnalyticsRequest;
 import pt.codemaster.adt.analytics.reports.CsvReport;
 import pt.codemaster.adt.analytics.reports.HtmlReport;
-import pt.codemaster.adt.analytics.reports.PdfReport;
-import pt.codemaster.adt.analytics.reports.ReportGenerator;
+import pt.codemaster.adt.analytics.reports.PdfReportGeneratorBridge;
+import pt.codemaster.adt.analytics.reports.ReportGeneratorBridge;
 import pt.codemaster.rest.IAnalyticsInternalProvider;
 import pt.codemaster.services.IActivityDefinitionService;
 import pt.codemaster.services.IAnalyticsService;
@@ -36,10 +36,10 @@ public class AnalyticsInternal implements IAnalyticsInternalProvider {
     public byte[] analyticsPdf(@RequestBody AnalyticsRequest request) throws Exception {
         Activity activity = activityDefinitionService.getActivity(Long.parseLong(request.getActivityID()));
         Collection<ActivityUserAnalytics> analyticsReport = analyticsService.getAnalyticsReport(activity);
-        ReportGenerator generator = new ReportGenerator(new PdfReport());
+        PdfReportGeneratorBridge generator = new PdfReportGeneratorBridge(new HtmlReport());
         generator.setName("Relatório da atividade - versão PDF");
         generator.setDate(new Date());
-        return generator.generate(analyticsReport);
+        return generator.convertToPdf(analyticsReport);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class AnalyticsInternal implements IAnalyticsInternalProvider {
     public byte[] analyticsCsv(@RequestBody AnalyticsRequest request) throws Exception {
         Activity activity = activityDefinitionService.getActivity(Long.parseLong(request.getActivityID()));
         Collection<ActivityUserAnalytics> analyticsReport = analyticsService.getAnalyticsReport(activity);
-        ReportGenerator generator = new ReportGenerator(new CsvReport());
+        ReportGeneratorBridge generator = new ReportGeneratorBridge(new CsvReport());
         generator.setName("Relatório da atividade - versão CSV/Excel");
         generator.setDate(new Date());
         return generator.generate(analyticsReport);
@@ -58,7 +58,7 @@ public class AnalyticsInternal implements IAnalyticsInternalProvider {
     public byte[] analyticsHtml(@RequestBody AnalyticsRequest request) throws Exception {
         Activity activity = activityDefinitionService.getActivity(Long.parseLong(request.getActivityID()));
         Collection<ActivityUserAnalytics> analyticsReport = analyticsService.getAnalyticsReport(activity);
-        ReportGenerator generator = new ReportGenerator(new HtmlReport());
+        ReportGeneratorBridge generator = new ReportGeneratorBridge(new HtmlReport());
         generator.setName("Relatório da atividade - versão web");
         generator.setDate(new Date());
         return generator.generate(analyticsReport);
