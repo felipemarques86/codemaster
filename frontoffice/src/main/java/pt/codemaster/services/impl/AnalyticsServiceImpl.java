@@ -10,7 +10,6 @@ import pt.codemaster.adt.activity.Activity;
 import pt.codemaster.adt.analytics.ActivityAnalytics;
 import pt.codemaster.adt.analytics.ActivityUserAnalytics;
 import pt.codemaster.adt.analytics.AnalyticsNameValuePair;
-import pt.codemaster.adt.analytics.IActivityUserAnalytics;
 import pt.codemaster.repositories.ActivityAnalyticsRepository;
 import pt.codemaster.services.IActivityService;
 import pt.codemaster.services.IAnalyticsService;
@@ -92,7 +91,7 @@ public class AnalyticsServiceImpl implements IAnalyticsService {
                 if(deliverable.getAuthor() == null)
                     continue;
                 Long id = Long.parseLong(deliverable.getAuthor().getId());
-                IActivityUserAnalytics dto = new ActivityUserAnalytics();
+                ActivityUserAnalytics dto = new ActivityUserAnalytics();
                 dto.setInveniraStdID(deliverable.getAuthor().getId());
                 dto.getQuantAnalytics().add(new AnalyticsNameValuePair("Submetido", Boolean.toString(deliverable.isSubmitted())));
                 dto.getQuantAnalytics()
