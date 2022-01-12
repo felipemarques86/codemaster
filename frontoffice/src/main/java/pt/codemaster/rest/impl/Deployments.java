@@ -5,13 +5,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pt.codemaster.adt.ActivityInstance;
 import pt.codemaster.adt.activity.ActivityDeployRequest;
+import pt.codemaster.rest.IConfigProvider;
 import pt.codemaster.services.IDeploymentService;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @RestController
 @CrossOrigin
-public class Deployments {
+public class Deployments implements IConfigProvider {
 
     @Autowired
     private IDeploymentService deploymentService;
@@ -23,6 +24,7 @@ public class Deployments {
         return new ModelAndView("redirect: #/activity/" + instance.getId() + "/user/" + deployRequest.getInveniRAstdID() + "/index.html");
     }
 
+    @Override
     @GetMapping(value = "/config")
     @ResponseBody
     public ModelAndView config() {
