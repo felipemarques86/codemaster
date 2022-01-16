@@ -1,9 +1,9 @@
 package pt.codemaster.validators.impl;
 
 import pt.codemaster.adt.Deliverable;
-import pt.codemaster.validators.adt.ValidationError;
 import pt.codemaster.validators.adt.BaseValidator;
 import pt.codemaster.validators.adt.EntityValidator;
+import pt.codemaster.validators.adt.ValidationError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class DeliverableValidator extends BaseValidator implements EntityValidat
 
     }
 
-    public static DeliverableValidator getInstance() {
+    public static EntityValidator<Deliverable> getInstance() {
         if(INSTANCE == null) {
             INSTANCE = new DeliverableValidator();
         }

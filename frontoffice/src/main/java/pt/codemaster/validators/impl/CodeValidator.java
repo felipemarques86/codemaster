@@ -1,9 +1,9 @@
 package pt.codemaster.validators.impl;
 
 import pt.codemaster.adt.Code;
-import pt.codemaster.validators.adt.ValidationError;
 import pt.codemaster.validators.adt.BaseValidator;
 import pt.codemaster.validators.adt.EntityValidator;
+import pt.codemaster.validators.adt.ValidationError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class CodeValidator extends BaseValidator implements EntityValidator<Code
     private CodeValidator() {
     }
 
-    public static CodeValidator getInstance() {
+    public static EntityValidator<Code> getInstance() {
         if(INSTANCE == null) {
             INSTANCE = new CodeValidator();
         }

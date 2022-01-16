@@ -5,7 +5,7 @@ import pt.codemaster.adt.analytics.ActivityUserAnalytics;
 import java.util.Collection;
 import java.util.Date;
 
-public class ReportGeneratorBridge {
+public class ReportGeneratorBridge implements IReportGenerator {
     private Report report;
 
 
@@ -13,23 +13,28 @@ public class ReportGeneratorBridge {
         this.report = report;
     }
 
+    @Override
     public byte[] generate(Collection<ActivityUserAnalytics> analyticsCollection) throws Exception {
         report.setAnalytics(analyticsCollection);
         return report.getBinary();
     }
 
+    @Override
     public String getName() {
         return report.getName();
     }
 
+    @Override
     public void setName(String name) {
         report.setName(name);
     }
 
+    @Override
     public Date getDate() {
         return report.getDate();
     }
 
+    @Override
     public void setDate(Date date) {
         report.setDate(date);
     }

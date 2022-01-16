@@ -7,6 +7,7 @@ import pt.codemaster.adt.analytics.ActivityAnalytics;
 import pt.codemaster.adt.analytics.ActivityUserAnalytics;
 import pt.codemaster.adt.analytics.AnalyticsNameValuePair;
 import pt.codemaster.adt.analytics.AnalyticsRequest;
+import pt.codemaster.adt.analytics.reports.IReportGenerator;
 import pt.codemaster.adt.analytics.reports.JsonReport;
 import pt.codemaster.adt.analytics.reports.ReportGeneratorBridge;
 import pt.codemaster.rest.IAnalyticsExternalProvider;
@@ -37,7 +38,7 @@ public class Analytics implements IAnalyticsExternalProvider, IAnalyticsRecorder
     public byte[] analyticsJson(@RequestBody AnalyticsRequest request) throws Exception {
         Activity activity = activityDefinitionService.getActivity(Long.parseLong(request.getActivityID()));
         Collection<ActivityUserAnalytics> analyticsReport = analyticsService.getAnalyticsReport(activity);
-        ReportGeneratorBridge generator = new ReportGeneratorBridge(new JsonReport());
+        IReportGenerator generator = new ReportGeneratorBridge(new JsonReport());
         generator.setName("Relatório da atividade");
         generator.setDate(new Date());
         return generator.generate(analyticsReport);

@@ -15,7 +15,8 @@ public class PdfReportGeneratorBridge extends ReportGeneratorBridge {
         super(report);
     }
 
-    public byte[] convertToPdf(Collection<ActivityUserAnalytics> analyticsCollection) throws Exception {
+    @Override
+    public byte[] generate(Collection<ActivityUserAnalytics> analyticsCollection) throws Exception {
         byte[] data = super.generate(analyticsCollection);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setValidating(false);

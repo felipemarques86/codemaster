@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pt.codemaster.adt.activity.Activity;
 import pt.codemaster.rest.IActivityDefinitionProvider;
+import pt.codemaster.rest.IConfigProvider;
 import pt.codemaster.services.IActivityDefinitionService;
 import pt.codemaster.validators.adt.ValidationError;
 import pt.codemaster.validators.impl.ActivityValidator;
@@ -16,7 +18,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @RestController
 @CrossOrigin
-public class ActivityDefinitions implements IActivityDefinitionProvider {
+public class ActivityDefinitions implements IActivityDefinitionProvider, IConfigProvider {
 
     @Autowired
     private IActivityDefinitionService activityDefinitionService;
@@ -57,6 +59,13 @@ public class ActivityDefinitions implements IActivityDefinitionProvider {
                 "\t\"solution\":[],\n" +
                 "\t\"bibliographicReferenceList\":[]\n" +
                 "}";
+    }
+
+    @Override
+    @GetMapping(value = "/config")
+    @ResponseBody
+    public ModelAndView config() {
+        return new ModelAndView("redirect:" + "#/config.html");
     }
 
 }
