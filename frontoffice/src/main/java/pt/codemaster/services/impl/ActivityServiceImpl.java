@@ -180,19 +180,7 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
             instance = new ActivityInstance();
             instance.setActivity(activity);
             instance.setStartDate(new Date());
-            List<Deliverable> deliverables = new ArrayList<>();
-            for(Solution solution : activity.getSolution()){
-                Deliverable deliverable = new Deliverable();
-                Code code = solution.getCode();
-                Code emptyCode = new Code();
-                emptyCode.setLanguage(code.getLanguage());
-                deliverable.setCode(emptyCode);
-                deliverable.setSolution(solution);
-                deliverables.add(deliverable);
-                emptyCode.setDeliverable(deliverable);
-                deliverable.setActivityInstance(instance);
-            }
-            instance.setDeliverable(deliverables);
+            addDeliverables(activity, instance);
             logger.info("New instance created");
         }
 
@@ -213,6 +201,21 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
         return instance;
     }
 
+    private void addDeliverables(Activity activity, ActivityInstance instance) {
+        List<Deliverable> deliverables = new ArrayList<>();
+        for(Solution solution : activity.getSolution()){
+            Deliverable deliverable = new Deliverable();
+            Code code = solution.getCode();
+            Code emptyCode = new Code();
+            emptyCode.setLanguage(code.getLanguage());
+            deliverable.setCode(emptyCode);
+            deliverable.setSolution(solution);
+            deliverables.add(deliverable);
+            emptyCode.setDeliverable(deliverable);
+            deliverable.setActivityInstance(instance);
+        }
+        instance.setDeliverable(deliverables);
+    }
 
 
 }
