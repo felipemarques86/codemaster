@@ -82,7 +82,8 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
 
     @Override
     public Code saveCode(Code code) {
-        return codeRepository.save(code);
+        code = codeRepository.save(code);
+        return code;
     }
 
 
@@ -168,6 +169,8 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
                         .anyMatch(d -> d.getAuthor() == null || d.getAuthor().getId().equals(userId)))
                 .findAny();
 
+        EndUser user = usersInternalRepository.getOrCreateUser(userId);
+
         ActivityInstance instance = null;
 
         if(any.isPresent()){
@@ -186,6 +189,7 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
                 deliverable.setCode(emptyCode);
                 deliverable.setSolution(solution);
                 deliverables.add(deliverable);
+                emptyCode.setDeliverable(deliverable);
                 deliverable.setActivityInstance(instance);
             }
             instance.setDeliverable(deliverables);
@@ -199,8 +203,9 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
             return instance;
         } else {
             Deliverable deliverable1 = deliverable.get();
-            deliverable1.setAuthor(usersInternalRepository.getOrCreateUser(userId));
-            deliverable1.getCode().setAuthor(usersInternalRepository.getOrCreateUser(userId));
+            deliverable1.setAuthor(user);
+            deliverable1.getCode().setAuthor(user);
+            instance.subscribe(user);
         }
 
         this.activityInstanceRepository.save(instance);

@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class ActivityInstance {
+public class ActivityInstance implements IPublisher {
     @Id
     @GeneratedValue
     private Long id;
@@ -18,6 +18,8 @@ public class ActivityInstance {
     private Activity activity;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Deliverable> deliverable = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<EndUser> subscribers = new ArrayList<>();
 
     public ActivityInstance() {
     }
@@ -66,11 +68,30 @@ public class ActivityInstance {
         this.activity = activity;
     }
 
+    public List<EndUser> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(List<EndUser> subscribers) {
+        this.subscribers = subscribers;
+    }
+
     @Override
     public String toString() {
         return "ActivityInstance{" +
                 "id=" + id +
                 ", activity=" + activity +
                 '}';
+    }
+
+    @Override
+    public void notifySubscribers(NotificationEvent event) {
+         subscribers.forEach(endUser -> endUser.update(event));
+    }
+
+    @Override
+    public void subscribe(EndUser user) {
+        if(!subscribers.contains(user))
+            subscribers.add(user);
     }
 }

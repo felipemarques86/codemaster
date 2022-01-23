@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Deliverable {
+public class Deliverable implements IPublisher {
     @Id
     @GeneratedValue
     private Long id;
@@ -123,5 +123,15 @@ public class Deliverable {
                 "id=" + id +
                 ", activityInstance=" + activityInstance +
                 '}';
+    }
+
+    @Override
+    public void notifySubscribers(NotificationEvent event) {
+        this.activityInstance.notifySubscribers(event);
+    }
+
+    @Override
+    public void subscribe(EndUser user) {
+        activityInstance.subscribe(user);
     }
 }

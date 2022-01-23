@@ -1,12 +1,14 @@
 package pt.codemaster.adt;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Comment {
+public class Comment implements IPublisher {
     @Id
     @GeneratedValue
     private Long id;
@@ -16,6 +18,9 @@ public class Comment {
     private String content;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> replies = new ArrayList<>();
+    @ManyToOne
+    @JsonIgnore
+    private Code code;
 
     public Comment() {
     }
@@ -67,5 +72,23 @@ public class Comment {
         comment.setContent(content);
 
         replies.add(comment);
+    }
+
+    public Code getCode() {
+        return code;
+    }
+
+    public void setCode(Code code) {
+        this.code = code;
+    }
+
+    @Override
+    public void notifySubscribers(NotificationEvent event) {
+        this.code.notifySubscribers(event);
+    }
+
+    @Override
+    public void subscribe(EndUser user) {
+        code.subscribe(user);
     }
 }

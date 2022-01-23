@@ -1,6 +1,7 @@
 package pt.codemaster.adt;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Code {
+public class Code implements IPublisher {
 
     @Id
     @GeneratedValue
@@ -20,6 +21,9 @@ public class Code {
     private String code;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Deliverable deliverable;
 
     public Code(LanguageEnum language, String code) {
         this.language = language;
@@ -80,5 +84,27 @@ public class Code {
         }
         split[line-1] = split[line-1] + "/**<comment>" + comment.getId() + "</comment>**/";
         this.code = StringUtils.joinWith("\n", split);
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
+    public Deliverable getDeliverable() {
+        return deliverable;
+    }
+
+    public void setDeliverable(Deliverable deliverable) {
+        this.deliverable = deliverable;
+    }
+
+    @Override
+    public void notifySubscribers(NotificationEvent event) {
+        this.deliverable.notifySubscribers(event);
+    }
+
+    @Override
+    public void subscribe(EndUser user) {
+        deliverable.subscribe(user);
     }
 }
