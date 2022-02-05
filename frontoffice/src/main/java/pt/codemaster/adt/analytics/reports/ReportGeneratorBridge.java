@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 
 public class ReportGeneratorBridge implements IReportGenerator {
-    private Report report;
+    private final Report report;
 
 
     public ReportGeneratorBridge(Report report) {

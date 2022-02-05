@@ -104,28 +104,28 @@ public class AnalyticsServiceImpl implements IAnalyticsService {
 
                 dto.getQuantAnalytics()
                         .add(new AnalyticsNameValuePair("Comentários Feitos",
-                                Integer.toString(instance.getDeliverable()
+                                Integer.toString((int) instance.getDeliverable()
                                         .stream()
-                                        .flatMap( deliverable1 ->
+                                        .flatMap(deliverable1 ->
                                                 Stream.concat(
                                                         deliverable1.getCode()
                                                                 .getCommentList()
                                                                 .stream()
-                                                                .filter( comment -> comment.getAuthor()
+                                                                .filter(comment -> comment.getAuthor()
                                                                         .getId()
                                                                         .equals(deliverable.getAuthor().getId())),
 
                                                         deliverable1.getCode()
                                                                 .getCommentList()
                                                                 .stream()
-                                                                .flatMap( comment -> comment.getReplies()
+                                                                .flatMap(comment -> comment.getReplies()
                                                                         .stream()
-                                                                        .filter( c -> c.getAuthor()
+                                                                        .filter(c -> c.getAuthor()
                                                                                 .getId()
                                                                                 .equals(deliverable
                                                                                         .getAuthor().getId()))))
 
-                                        ).collect(Collectors.toList()).size())));
+                                        ).count())));
                 data.put(id, dto);
             }
         }
@@ -166,28 +166,28 @@ public class AnalyticsServiceImpl implements IAnalyticsService {
 
                 dto.getQuantAnalytics()
                         .add(new AnalyticsNameValuePair("Comentários Feitos",
-                                Integer.toString(instance.getDeliverable()
+                                Integer.toString((int) instance.getDeliverable()
                                         .stream()
-                                        .flatMap( deliverable1 ->
+                                        .flatMap(deliverable1 ->
                                                 Stream.concat(
                                                         deliverable1.getCode()
                                                                 .getCommentList()
                                                                 .stream()
-                                                                .filter( comment -> comment.getAuthor()
+                                                                .filter(comment -> comment.getAuthor()
                                                                         .getId()
                                                                         .equals(deliverable.getAuthor().getId())),
 
                                                         deliverable1.getCode()
                                                                 .getCommentList()
                                                                 .stream()
-                                                                .flatMap( comment -> comment.getReplies()
+                                                                .flatMap(comment -> comment.getReplies()
                                                                         .stream()
-                                                                        .filter( c -> c.getAuthor()
+                                                                        .filter(c -> c.getAuthor()
                                                                                 .getId()
                                                                                 .equals(deliverable
                                                                                         .getAuthor().getId()))))
 
-                                        ).collect(Collectors.toList()).size())));
+                                        ).count())));
                 data.put(id, dto);
             }
         }

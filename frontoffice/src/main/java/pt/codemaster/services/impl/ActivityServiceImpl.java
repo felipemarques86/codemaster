@@ -171,7 +171,7 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
 
         EndUser user = usersInternalRepository.getOrCreateUser(userId);
 
-        ActivityInstance instance = null;
+        ActivityInstance instance;
 
         if(any.isPresent()){
             instance = any.get();
@@ -185,7 +185,7 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
         }
 
 
-        Optional<Deliverable> deliverable = instance.getDeliverable().stream().filter(d -> d.getAuthor() == null || d.getAuthor().getId() == userId).findAny();
+        Optional<Deliverable> deliverable = instance.getDeliverable().stream().filter(d -> d.getAuthor() == null || d.getAuthor().getId().equals(userId)).findAny();
 
         if(!deliverable.isPresent()){
             return instance;
