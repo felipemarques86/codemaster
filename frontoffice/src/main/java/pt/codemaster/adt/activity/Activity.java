@@ -1,9 +1,13 @@
 package pt.codemaster.adt.activity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import pt.codemaster.adt.Solution;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +18,10 @@ public class Activity {
     private String name;
     private String description;
     @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<BibliographicReference> bibliographicReferenceList = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Solution> solution = new ArrayList<>();
 
     public Long getId() {

@@ -1,5 +1,7 @@
 package pt.codemaster.adt;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import pt.codemaster.adt.activity.ActivityUnitTest;
 
 import javax.persistence.*;
@@ -12,8 +14,10 @@ public class Solution {
     @GeneratedValue
     private Long id;
     @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<ActivityUnitTest> testsToPass = new ArrayList<>();
     @ManyToOne(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Code code;
 
     public Solution() {
@@ -53,5 +57,14 @@ public class Solution {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Solution{" +
+                "id=" + id +
+                ", testsToPass=" + testsToPass +
+                ", code=" + code +
+                '}';
     }
 }

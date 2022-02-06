@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EntityScan("pt.codemaster.adt")
-@ComponentScan(basePackages = {"pt.codemaster.services", "pt.codemaster.rest", "pt.codemaster.config"})
+@ComponentScan(basePackages = {"pt.codemaster.services", "pt.codemaster.rest", "pt.codemaster.config", "pt.codemaster.util"})
 @EnableJpaRepositories("pt.codemaster.repositories")
 public class CodeMasterApplication {
 

@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivityService} from "../../services/activity.service";
 import {
   Activity,
   ActivityUnitTest,
@@ -128,7 +127,7 @@ export class ConfigActivityComponent implements OnInit {
     const timeCodeStart = test.performance ? "const startTime = new Date();\r\n" : "";
     const endTime = test.performance ? "const RUN_TIME = (new Date()) - startTime; console.log(RUN_TIME);\r\n" :"";
     try {
-      eval(timeCodeStart + this.selectedSolution.value.code.code + endTime + '\r\n{' + this.ASSERT_FUNC + ';\r\n' + test.code.code + '}');
+      eval(timeCodeStart + this.selectedSolution.value.code.code + endTime + '\r\n{' + this.ASSERT_FUNC + '\r\n' + test.code.code + '}');
       test.passed = true;
     } catch (e: any) {
       console.error(e);
@@ -140,7 +139,7 @@ export class ConfigActivityComponent implements OnInit {
   validateGlobalTest(test: ActivityUnitTest) {
     const c = this.solutions.map(s => s.code.code).reduce((s1, s2) => s1 + ";" + s2 + ";");
     try {
-      eval(c + '\r\n{' + this.ASSERT_FUNC + ';\r\n' + test.code.code + '}');
+      eval(c + '\r\n{' + this.ASSERT_FUNC + '\r\n' + test.code.code + '}');
       test.passed = true;
     } catch (e: any) {
       console.error(e);

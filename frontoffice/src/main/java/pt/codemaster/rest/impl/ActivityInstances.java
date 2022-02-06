@@ -83,8 +83,18 @@ public class ActivityInstances implements IActivityRuntime {
         if(!errors.isEmpty()) {
             return new ResponseEntity<>(deliverable, HttpStatus.BAD_REQUEST);
         }
-        deliverable = activityService.submit(ceaId, deliverable);
+        try {
+            deliverable = activityService.submit(ceaId, deliverable);
+        } catch(Exception exception) {
+            return new ResponseEntity<>(deliverable, HttpStatus.BAD_REQUEST);
+        }
+
+        if(deliverable == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
         deliverable.notifySubscribers(new NotificationEvent(DELIVERABLE_SUBMITTED, deliverable.getAuthor().getName() + " submeteu o seu código" ));
+
         return ResponseEntity.ok(deliverable);
     }
 

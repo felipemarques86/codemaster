@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class EndUser implements ISubscriber {
@@ -60,5 +61,18 @@ public class EndUser implements ISubscriber {
         Notification notification = new Notification();
         notification.setContent(event.getMessage());
         notifications.add(notification);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EndUser endUser = (EndUser) o;
+        return Objects.equals(id, endUser.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

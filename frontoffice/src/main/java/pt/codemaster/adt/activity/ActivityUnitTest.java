@@ -49,4 +49,13 @@ public class ActivityUnitTest {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "ActivityUnitTest{" +
+                "id=" + id +
+                ", code=" + code +
+                ", performance=" + performance +
+                ", score=" + score +
+                '}';
+    }
 }

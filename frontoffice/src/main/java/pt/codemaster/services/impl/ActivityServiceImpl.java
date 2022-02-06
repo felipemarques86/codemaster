@@ -121,18 +121,28 @@ public class ActivityServiceImpl implements IActivityService, IDeploymentService
     }
 
     @Override
-    public Deliverable submit(Long ceaId, Deliverable deliverable) {
+    public Deliverable submit(Long ceaId, final Deliverable deliverable) {
+        if( deliverable == null) {
+            return null;
+        }
 
-        if( deliverable != null) {
+        Optional<Deliverable> dbDeliverable = deliverableRepository.findById(deliverable.getId());
+        if(dbDeliverable.isPresent() && !dbDeliverable.get().isSubmitted()) {
             deliverable.setSubmitted(true);
             deliverable.setSubmissionDate(new Date());
             deliverable.setActivityInstance(activityInstanceRepository.getById(ceaId));
-            deliverable = deliverableRepository.save(deliverable);
-            return deliverable;
-
+            return deliverableRepository.save(deliverable);
         }
 
-        return null;
+        if(dbDeliverable.get().isSubmitted()) {
+            throw new RuntimeException("Já efetuou a submissão");
+        }
+
+        if(!dbDeliverable.isPresent()){
+            return null;
+        }
+
+        return deliverable;
     }
 
     @Override

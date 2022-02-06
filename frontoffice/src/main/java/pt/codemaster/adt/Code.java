@@ -3,6 +3,8 @@ package pt.codemaster.adt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,7 +21,8 @@ public class Code implements IPublisher {
     @Enumerated(EnumType.STRING)
     private LanguageEnum language;
     private String code;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Comment> commentList = new ArrayList<>();
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
@@ -106,5 +109,17 @@ public class Code implements IPublisher {
     @Override
     public void subscribe(EndUser user) {
         deliverable.subscribe(user);
+    }
+
+    @Override
+    public String toString() {
+        return "Code{" +
+                "id=" + id +
+                ", author=" + author +
+                ", language=" + language +
+                ", code='" + code + '\'' +
+                ", commentList=" + commentList +
+                ", deliverable=" + (deliverable != null ? deliverable.getId() :null) +
+                '}';
     }
 }

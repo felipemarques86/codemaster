@@ -145,7 +145,7 @@ export class CeaComponent implements OnInit {
     switch (test.code.language) {
       case LanguageEnum.JAVASCRIPT:
         try {
-          eval("{" + this.ASSERT_FUNC + code.code + ";\r\n" + test.code.code + "}");
+          eval("{" + this.ASSERT_FUNC + code.code + "\r\n" + test.code.code + "}");
           passedTests.push(test);
         } catch (e: any) {
           console.log(test);

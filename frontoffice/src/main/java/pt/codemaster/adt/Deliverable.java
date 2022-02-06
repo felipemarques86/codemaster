@@ -1,12 +1,15 @@
 package pt.codemaster.adt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import pt.codemaster.adt.activity.UnitTestResult;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Deliverable implements IPublisher {
@@ -19,11 +22,13 @@ public class Deliverable implements IPublisher {
     @ManyToOne(cascade = CascadeType.ALL)
     private Code code;
     @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<UnitTestResult> result = new ArrayList<>();
     @ManyToOne
     private Solution solution;
     private boolean submitted;
     private boolean readOnly;
+    @Temporal(value = TemporalType.TIMESTAMP)
     private Date submissionDate;
     @ManyToOne
     @JsonIgnore
@@ -121,7 +126,14 @@ public class Deliverable implements IPublisher {
     public String toString() {
         return "Deliverable{" +
                 "id=" + id +
-                ", activityInstance=" + activityInstance +
+                ", author=" + author +
+                ", content='" + content + '\'' +
+                ", code=" + code +
+                ", result=" + result +
+                ", solution=" + solution +
+                ", submitted=" + submitted +
+                ", readOnly=" + readOnly +
+                ", submissionDate=" + submissionDate +
                 '}';
     }
 
@@ -133,5 +145,18 @@ public class Deliverable implements IPublisher {
     @Override
     public void subscribe(EndUser user) {
         activityInstance.subscribe(user);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Deliverable that = (Deliverable) o;
+        return submitted == that.submitted && readOnly == that.readOnly && Objects.equals(id, that.id) && Objects.equals(author, that.author) && Objects.equals(content, that.content) && Objects.equals(code, that.code) && Objects.equals(result, that.result) && Objects.equals(solution, that.solution) && Objects.equals(submissionDate, that.submissionDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, author, content, code, result, solution, submitted, readOnly, submissionDate);
     }
 }

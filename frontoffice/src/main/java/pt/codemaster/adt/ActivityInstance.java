@@ -18,7 +18,7 @@ public class ActivityInstance implements IPublisher {
     private Activity activity;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Deliverable> deliverable = new ArrayList<>();
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.DETACH)
     private List<EndUser> subscribers = new ArrayList<>();
 
     public ActivityInstance() {
