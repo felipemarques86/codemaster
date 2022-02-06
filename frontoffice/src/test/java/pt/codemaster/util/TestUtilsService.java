@@ -26,19 +26,27 @@ public class TestUtilsService {
     private UsersServiceImpl usersService;
 
     @Transactional
-    public Activity createTestActivity(String userId) {
+    public Activity createTestActivity(Long activityId, String activityName) {
 
         Activity activity = new Activity();
-        activity.setId(1L);
-        activity.setName("Test Activity");
+        activity.setId(activityId);
+        activity.setName(activityName);
         activity.setDescription("Test Activity Description");
         activity.setBibliographicReferenceList(Collections.emptyList());
-        Solution solution = new Solution();
+        Solution solution1 = new Solution();
         Code code = new Code();
         code.setLanguage(LanguageEnum.JAVASCRIPT);
         code.setCode("alert('Hello World');");
-        solution.setCode(code);
-        activity.getSolution().add(solution);
+        solution1.setCode(code);
+        activity.getSolution().add(solution1);
+
+        Solution solution2 = new Solution();
+        Code code2 = new Code();
+        code2.setLanguage(LanguageEnum.JAVASCRIPT);
+        code2.setCode("alert('Hello World 2');");
+        solution2.setCode(code2);
+        activity.getSolution().add(solution2);
+
         activity = activityService.saveActivity(activity);
 
         return activity;
